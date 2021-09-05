@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1630804365 "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1.pdf" "hw1" 1630804365
+["pdflatex"] 1630819788 "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf" "hw1" 1630819790
   "C:/Users/kobee/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1612424578 9293900 2bdc09d991a270a5a7d4cbca267ec166 ""
   "C:/Users/kobee/AppData/Local/MiKTeX/pdftex/config/pdftex.map" 1630804309 170887 f0a29a600acf8ff8e1e7d6ace329218a ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233955448 1004 54797486969f23fa377b128694d548df ""
@@ -25,9 +25,9 @@
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1247596667 36741 0ee9e374ec3e30da87cdfb0ea3575226 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb" 1247596666 37166 8ab3487cbe3ab49ebce74c29ea2418db ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1247596666 35469 dcf3a5f2fc1862f5952e3ee5eb1d98c4 ""
-  "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1247596667 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1247596666 32362 bc3f3eec7ab7d65fe700963d4017d32c ""
+  "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1247596667 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1247596667 32726 39f0f9e62e84beb801509898a605dbd5 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb" 1247596666 24252 1e4e051947e12dfb50fee0b7f4e26e3a ""
@@ -49,13 +49,13 @@
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty" 1578057145 42759 9cf6c5257b1bc7af01a58859749dd37a ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty" 1601745126 2677 e3b24ff953e5b58d924f163d25380312 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1611919724 27097 58278863d97b10ab86e334b8da33df7a ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1.aux" 1630804365 9 a94a2480d3289e625eea47cd1b285758 ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1.tex" 1630804362 5652 6bb8a085815f3a1d71d709be62da5282 ""
-  "hw1.aux" 0 -1 0 "pdflatex"
-  "hw1.tex" 1630804362 5652 6bb8a085815f3a1d71d709be62da5282 ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.aux" 1630819790 404 bc47a2facf1d85dadc0985d86f753602 ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" 1630819787 9592 93598ebfa869553ce7c0cbf67f27abc3 ""
+  "hw1.aux" 1630819790 404 bc47a2facf1d85dadc0985d86f753602 "pdflatex"
+  "hw1.tex" 1630819787 9592 93598ebfa869553ce7c0cbf67f27abc3 ""
   (generated)
   "hw1.log"
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1.log"
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1.pdf"
-  "hw1.aux"
   "hw1.pdf"
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.log"
+  "hw1.aux"
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf"
