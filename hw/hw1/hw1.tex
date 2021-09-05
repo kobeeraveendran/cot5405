@@ -169,6 +169,26 @@
 
     \end{enumerate}
     \item blah
+    \item \begin{enumerate}
+        \item strat:
+        
+        for a set of integers in an interval, roughly $\frac{1}{2}$ of them will have a most-signifcant bit of 1, while the 
+        other half will have a most significant bit of 0. Since John's array is sorted, we know that the most significant 
+        bit of the numbers in $A[1, \frac{n}{2}]$, where $n$ is the length of the array, is 0, while the most significant 
+        bit of the numbers in $A[\frac{n}{2}, n]$ is 1. So, the process for finding the missing integer could be as follows:
+        
+        \begin{enumerate}
+            \item ask John for the most significant bit of the $A[\frac{n}{2}]$ and $A[\frac{n}{2} + 1]$ (in other words, 
+            the two elements at the inflection point, where the most significant bit should change from 0 to 1).
+            \item If both the leftmost bits of $A[\frac{n}{2}]$ and $A[\frac{n}{2} + 1]$, we know that the missing number must 
+            be in the bottom half of the interval. If both are 0, we know the missing integer must be in the top half of 
+            the interval.
+            \item From there, we can repeat steps i. and ii. in a manner similar to binary search, by repeatedly cutting 
+            search space in half each time.
+            \item since the search space is cut in half for every pair of questions, the runtime of this algorithm is $O(\log n)$
+        \end{enumerate}
+
+    \end{enumerate}
     \item dynamic programming ($O(n)$):
     overall idea is to store maximum partial sums that we've encountered as we traverse through the array. For each index, 
     we'd store the max partial sum if the ending index, $k$, were to be at that index, and also track the starting index, 
