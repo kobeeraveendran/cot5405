@@ -1,0 +1,126 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[legalpaper, portrait, margin=0.8in]{geometry}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\title{Homework 1 -- COT5405}
+\author{Kobee Raveendran}
+\date{August 2021}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item note: all logs are implicitly base 2, but other bases may be specified explicitly. Also, I use the Master theorem template for some questions, so it is listed below.
+    
+    $T(n) = aT(\frac{n}{b}) + f(n)$, where $f(n) \in O(n^k\log^pn)$
+    
+    \begin{enumerate}
+        \item $T(n) = 9T(\frac{n}{2})+n^3 \longrightarrow O(n^{\log9}) \longrightarrow O(n^{2\log3})$ \\
+        
+        Steps: 
+        
+        using the Master theorem, we have:
+        
+        $a = 9$
+        
+        $b = 2$
+        
+        $f(n) = n^3 \longrightarrow k = 3, p = 0$
+        
+        Since $\log_{2}9 > 3$, we follow case 1 of the Master theorem ($\log_{b}a > k$), which means the bound is in $O(n^{\log_{b}a})$. After substitution, that gives us:
+        
+        $O(n^{\log9}) = O(n^{2\log3})$\\
+        
+        \item $T(n) = 7T(\frac{n}{2}) + n^3 \longrightarrow O(n^3)$ \\
+        
+        Steps:
+        
+        using the Master theorem, we have:
+        
+        $a = 7$
+        
+        $b = 2$
+        
+        $f(n) = n^3 \longrightarrow k = 3, p = 0$
+        
+        We find that this recurrence falls under case 3 of the theorem, in which $\log_{b}{a} < k$ (since $(\log_{2}{7} < 3)$), so we arrive at a complexity of the form $O(n^k) \longrightarrow O(n^3)$.\\
+        
+        \item $T(n) = T(\sqrt{n}) + \log n$
+        
+        \item $T(n) = \sqrt{n}T(\sqrt{n}) + n$
+        
+        \item $T(n) = 3T(\frac{n}{3}) + \frac{n}{3}$ \\
+        
+        Steps:
+        
+        using the Master theorem, we have:
+        
+        $a = 3$
+        
+        $b = 3$
+        
+        $f(n) = \frac{n}{3} \longrightarrow k = 1, p = 0$
+        
+        This recurrence falls under case 2 of the theorem, in which $\log_{b}{a} = k$ (since $\log_{3}{3} = 1$), so our complexity is of the form $O(n^k \log n) \longrightarrow O(n\log_{3}{n})$ (base changes since we divide the work done each recurrent step by 3 rather than the usual 2).\\
+        
+        \item $T(n) = T(\frac{n}{2}) + T(\frac{n}{4}) + n\log n$
+    \end{enumerate}
+    \item blah
+    \item dynamic programming ($O(n)$):
+    overall idea is to store maximum partial sums that we've encountered as we traverse through the array. For each index, we'd store the max partial sum if the ending index, $k$, were to be at that index, and also track the starting index, $j$, of each max partial sum's subarray. At each index, we will decide whether to ``continue'' the subarray if the current element's addition will increase the sum, or start a new subarray if the current element is already greater than whatever sum we have (i.e. the current sum was negative). If the current max partial sum is ever greater than the overall max partial sum, we update it and also update the start and end points of the subarray, $final_j$ and $final_k$.
+    \begin{algorithm}
+        \caption{Dynamic programming approach ($O(n)$ time with constant space)}
+        \begin{algorithmic}
+            \State $j, k, final_j, final_k \gets 0$
+            \State $max_{total} \gets -\infty$
+            \State $max_{curr} \gets 0$
+            
+            \State $N \gets length(A)$
+            
+            \For {$i \gets 0$ to $N$}
+                \If{$A[i] > max_{curr} + A[i]$}
+                    \State $j \gets i$
+                    \State $k \gets i + 1$
+                    \State $max_{curr} \gets A[i]$
+                \Else
+                    \State $k \gets i$
+                    \State $max_{curr} \gets max_{curr} + A[i]$
+                \If{$max_{curr} > max_{total}$}
+                    \State $final_j \gets j$
+                    \State $final_k \gets k$
+                    \State $max_{total} \gets max_{curr}$
+        \end{algorithmic}
+    \end{algorithm}
+    
+    \item blah
+    \item idea: since the rows and columns are sorted, we can eliminate entire sections of the grid if we an element is greater than or lesser than the target to be found. In the case where an element of the matrix is greater than the target, we can eliminate all rows that come after that element, and all columns that come after that element, since all of those elements will also be greater than the target. The inverse applies if the current element is less than the target; we'd instead eliminate all rows and columns before it, since the target can't be there. If the loop ends without finding the target, it does not exist in the matrix.
+    
+    View algorithm \ref{alg:grid-search}
+    
+    \begin{algorithm}
+        \caption{Iterative elimination approach ($O(n)$ time with constant space)}
+        \label{alg:grid-search}
+        \begin{algorithmic}[1]
+            \State $N \gets length(A)$
+            \State $i \gets 0$
+            \State $j \gets N - 1$
+            
+            \While{$i < N$ and $j \leq 0$}
+                \If{\texttt{target} $= A[i][j]$}
+                    \State \texttt{return} $(i, j)$
+                \Else
+                    \If{\texttt{target} $> A[i][j]$}
+                        \State $j \gets j - 1$
+                    \Else
+                        \State $i \gets i + 1$
+        \end{algorithmic}
+    \end{algorithm}
+    
+    \item use something like quicksort's partitioning algorithm?
+\end{enumerate}
+
+\end{document}
