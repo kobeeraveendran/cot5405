@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
@@ -34,6 +36,37 @@ void brute_force(vector<int> x, vector<int> y) {
     cout << "No matching sum found." << endl;
 }
 
+void array_diff(vector<int> x, vector<int> y) {
+    int target_diff = sum(x) - sum(y);
+    
+    if (target_diff % 2 != 0) {
+        cout << "No matching sum found." << endl;
+        return;
+    }
+
+    target_diff /= 2;
+    cout << "target diff: " << target_diff << endl;
+    unordered_map<int, int> diff_map;
+
+    for (int i = 0; i < x.size(); i++) {
+        diff_map[x[i]] = i;
+    }
+
+    for (int i = 0; i < y.size(); i++) {
+        if (diff_map.find(target_diff + y[i]) != diff_map.end()) {
+            int index = diff_map[target_diff + y[i]];
+            cout << "Found matching sum: swap x[" << index << "]  and y[" << i << "]." << endl;
+            int temp = x[index];
+            x[index] = y[i];
+            y[i] = temp;
+
+            cout << "new x sum: " << sum(x) << endl;
+            cout << "new y sum: " << sum(y) << endl;
+            return;
+        }
+    }
+}
+
 int main() {
 
     // no sum found case
@@ -51,6 +84,8 @@ int main() {
     cout << "y initial sum: " << sum(y) << endl;
 
     brute_force(x, y);
+    cout << endl;
+    array_diff(x, y);
 
     return 0;
 }
