@@ -168,7 +168,33 @@
         Since $T(n)$ is thus bounded on both sides by $O(n\log n)$, it is safe to claim that $T(n) \in O(n\log n)$.
 
     \end{enumerate}
-    \item blah
+    \item idea: we can compute the $k^{th}$ smallest number in $A[1, n]$ in $O(n)$ via the median of medians selection 
+    algorithm, but cannot do so for all $k = \log_2n$ elements as that would result in a total runtime of $O(n\log n)$. 
+    This naive approach, however, is only needed if we had to make use of the entire array after finding each $k^{th}$-smallest 
+    element. In this case though, after we find a $k^{th}$-smallest element, everything that was less than it is not useful 
+    in our search for the $(k+1)^{st}$-smallest element. So instead, we can try reducing the median of medians search space 
+    after each $k^{th}$-smallest element is found, by removing any invalid candidates once the $k^{th}$-smallest is found. 
+    Since earlier powers of 2 are closer together, I instead opt to start from the last power of 2 and work backwards, pruning 
+    elements \textit{larger} than the $k^{th}$-smallest, to prune more of the search space earlier. The pruning process 
+    may either create a new array of valid elements or use a linked list to support fast removal of all invalid elements 
+    (to avoid more than $O(\frac{n}{i})$ pruning-related work each $i^{th}$ iteration).
+
+    The steps would go as follows:
+
+    \begin{enumerate}
+        \item initialize $i$ such that $k = 2^i$ is the greatest power of 2 that is $\leq n$
+        \item run median of medians to find the $2^{i}$-th smallest element
+        \item prune the array by removing all elements greater than the $2^i$-th smallest element. In almost all iterations, this 
+        will remove half of the current iteration's search space.
+        \item decrement $i$ and repeat steps (b) and (c) for all $i \geq 0$.
+    \end{enumerate}
+
+    In general, this approach will find all such $k^{th}$ smallest elements in $O(n)$ time, because during each step, we 
+    are processing approximately half the array of the previous iteration (since the other half is discarded), giving us 
+    $n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \dots + \frac{n}{2^i} \approx cn$ steps of total work, yielding an $O(n)$ total 
+    time complexity. Depending on whether $n$ is a power of 2, and the subsequent amount of pruning work, the constant $c$ 
+    may change, but the runtime will remain linear.
+
     \item \begin{enumerate}
         \item
         
@@ -195,6 +221,8 @@
             reached and its value is filled in, giving us the complete binary representation of the missing number.
             \item since the search space is cut in half after each question, the runtime of this algorithm is $O(\log n)$
         \end{enumerate}
+
+        \newpage
 
         Below is a toy example of this, with numbers in the range of 0 to 7, with 1 being the missing integer. Note that all arrays here 
         are 0-indexed, and bits are indexed from the most- to least-significant bit for simplicity. For example, $A[i][j]$ signifies the $j^{th}$ bit 
@@ -284,7 +312,7 @@
     constant rather than linear time, allowing us to find suitable pairs in amortized $O(max(n, m))$ time instead of $O(n \cdot m)$.
     The total runtime is amortized $O(max(n, m))$ since both $X$ and $Y$ are iterated over (either to populate the hashmap or to find a suitable $Y_j$). Of course, worst 
     case insertion into a hashmap is $O(n)$, taking the total worst-case runtime to $O(n^2)$, which is only seen in the event of 
-    many hash collisions caused by a poor hashing function. The total space complexity is $O(n)$, since every addend in $X$ is mapped to its index via the hashmap.
+    many hash collisions caused by a poor hash function. The total space complexity is $O(n)$, since every addend in $X$ is mapped to its index via the hashmap.
 
     \begin{algorithm}
         \caption{Hash map pair checking $O(max(n, m))$ time with $O(n)$ space}
