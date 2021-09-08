@@ -296,40 +296,79 @@
         total work, which is $O(n)$.
 
     \end{enumerate}
-    \item dynamic programming ($O(n)$):
-    overall idea is to store maximum partial sums that we've encountered as we traverse through the array. For each index, 
-    we'd store the max partial sum if the ending index, $k$, were to be at that index, and also track the starting index, 
-    $j$, of each max partial sum's subarray. At each index, we will decide whether to ``continue'' the subarray if the 
-    current element's addition will increase the sum, or start a new subarray if the current element is already greater 
-    than whatever sum we have (i.e. the current sum was negative). If the current max partial sum is ever greater than 
-    the overall max partial sum, we update it and also update the start and end points of the subarray, $final_j$ and $final_k$.
+    
+    \item 
+    
+    \begin{enumerate}
+        \item divide and conquer ($O(n\log n)$):
+        idea is to find max partial sums of all subarrays in the overall array, but rather than 
+        exhaustively test all subarrays, we can notice that the max partial sum of two subarrays is 
+        either the max of each individual subarray's sum, or their combination (which crosses the midpoint). 
+        So, a simple solution is to recursively call this function on the left and right halves of the array, and 
+        the max partial sum will be the $max(f(left), f(right), f(left + right))$. The left and right half sums 
+        are computed recursively, while the midpoint sum requires iterating from the midpoint to its left 
+        and right and computing the max sum manually. See the below example using the array given in the homework problem:
 
-    \begin{algorithm}
-        \caption{Dynamic programming approach ($O(n)$ time with constant space)}
-        \begin{algorithmic}
-            \State $j, k, final_j, final_k \gets 0$
-            \State $max_{total} \gets -\infty$
-            \State $max_{curr} \gets 0$
-            
-            \State $N \gets length(A)$
-            
-            \For {$i \gets 0$ to $N$}
-                \If{$A[i] > max_{curr} + A[i]$}
-                    \State $j \gets i$
-                    \State $k \gets i + 1$
-                    \State $max_{curr} \gets A[i]$
-                \Else
-                    \State $k \gets i$
-                    \State $max_{curr} \gets max_{curr} + A[i]$
-                \If{$max_{curr} > max_{total}$}
-                    \State $final_j \gets j$
-                    \State $final_k \gets k$
-                    \State $max_{total} \gets max_{curr}$
+        \centering{
+            $[3, -5, 6, 7, 8, -10, 7]$
+
+            $[3, -5, 6, 7]$ | $[8, -10, 7]$
+
+            $[3, -5]$ | $[6, 7]$ | $[8, -10]$ | $[7]$
+
+            $[3]$ | $[-5]$ | $[6]$ | $[7]$ | $[8]$ | $[-10]$ | $[7]$
+        }
+
+        On the way up from the base cases (single elements), the max sums (between the left, right, and across midpoint) 
+        are computed:
+
+        \centering{
+            $[3, -5, 6, 7, 8, -10, 7] (21 -$ from crossing midpoint$)$
+
+            $[3, -5, 6, 7] (13)$ | $[8, -10, 7] (7)$
+
+            $[3, -5] (-2)$ | $[6, 7] (13)$ | $[8, -10] (-2)$ | $[7](7)$
+
+            $[3]$ | $[-5]$ | $[6]$ | $[7]$ | $[8]$ | $[-10]$ | $[7]$
+        }
+
+        \item
+        dynamic programming ($O(n)$):
+        overall idea is to store maximum partial sums that we've encountered as we traverse through the array. For each index, 
+        we'd store the max partial sum if the ending index, $k$, were to be at that index, and also track the starting index, 
+        $j$, of each max partial sum's subarray. At each index, we will decide whether to ``continue'' the subarray if the 
+        current element's addition will increase the sum, or start a new subarray if the current element is already greater 
+        than whatever sum we have (i.e. the current sum was negative). If the current max partial sum is ever greater than 
+        the overall max partial sum, we update it and also update the start and end points of the subarray, $final_j$ and $final_k$.
+
+        \begin{algorithm}
+            \caption{Dynamic programming approach ($O(n)$ time with constant space)}
+            \begin{algorithmic}
+                \State $j, k, final_j, final_k \gets 0$
+                \State $max_{total} \gets -\infty$
+                \State $max_{curr} \gets 0$
+                
+                \State $N \gets length(A)$
+                
+                \For {$i \gets 0$ to $N$}
+                    \If{$A[i] > max_{curr} + A[i]$}
+                        \State $j \gets i$
+                        \State $k \gets i + 1$
+                        \State $max_{curr} \gets A[i]$
+                    \Else
+                        \State $k \gets i$
+                        \State $max_{curr} \gets max_{curr} + A[i]$
+                    \If{$max_{curr} > max_{total}$}
+                        \State $final_j \gets j$
+                        \State $final_k \gets k$
+                        \State $max_{total} \gets max_{curr}$
+                        \EndIf
                     \EndIf
-                \EndIf
-            \EndFor
-        \end{algorithmic}
-    \end{algorithm}
+                \EndFor
+            \end{algorithmic}
+        \end{algorithm}
+    
+    \end{enumerate}
     
     \item idea: If the two sums $X$ and $Y$ are unequal but can be made equal by swapping their addends, it should be the 
     case that one sum has an added that ``over-contributes'' to it while the other sum has an added that ``under-contributes'', causing the 
