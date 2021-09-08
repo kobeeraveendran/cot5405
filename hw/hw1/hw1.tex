@@ -219,7 +219,8 @@
             the search space in half each time and asking John about the inflection points. Each time we limit the search space, 
             we can ``fill in'' the $j^{th}$ bit of the missing number. This process will continue recursively until the final bit is 
             reached and its value is filled in, giving us the complete binary representation of the missing number.
-            \item since the search space is cut in half after each question, the runtime of this algorithm is $O(\log n)$
+            \item since the search space is cut in half after each question, and only one question is asked each time the 
+            search space is limited (i.e. only one element is ``processed'' in $O(1)$), the runtime of this algorithm is $O(\log n)$
         \end{enumerate}
 
         \newpage
@@ -263,6 +264,36 @@
             be 1. Appending that to our current representation, we find that the missing integer is ``001'' = 1.
 
         \end{enumerate}
+
+        \item Since the array is no longer sorted, we can't \textit{automatically} eliminate half the array after each question like we did previously. 
+        This prevents us from ``knowing'' how many integers have a $j^{th}$ bit of 1 or 0 unless we count each one. So, that's what 
+        we'll do: we can take the same approach as in part (a), but we would be responsible for pruning out the invalid integers 
+        manually. We can do this by first narrowing down the $j^{th}$ bit of the missing integer with $n$ questions, then eliminating 
+        integers that do not have the same $j^{th}$ bit, which should be half of them. This would require $2n$ operations 
+        per iteration: $n$ questions to find the missing number's $j^{th}$ bit, and another $n$ questions to find and keep
+        any integers that don't have the same $j^{th}$ bit. In the next iteration, we'd repeat the process on $\frac{n}{2}$ 
+        integers, then the next on $\frac{n}{4}$ integers, etc. until we are left with 1 integer.
+
+        The steps could go like this:
+
+        \begin{enumerate}
+            \item initialize an (unordered) set with all numbers from 1 to $n$; this will serve to track which indices $i$ in 
+            $A$ will be valid, since we don't actually know the values of the integers themselves.
+
+            \item ask John for the leftmost ($0^{th}$) bit of all numbers in the set, counting the number of 1's and 0's. If the number of 0's 
+            is $\leq$ the number of 1's, the missing number's leftmost ($0^{th}$) bit is 0; else it's a 1.
+
+            \item once again ask John for the $j^{th}$ bit (where $j$ is now 1) of all available numbers in the set, but remove numbers whose 
+            $j^{th}$ bit does not match the missing number's $j^{th}$ bit. This leaves us with only the halved search space 
+            for the next iteration.
+
+            \item repeat steps ii. and iii. until the set contains 1 element. It's rightmost bit must be the inverse of the 
+            missing number's, so fill it in and end the loop.
+        \end{enumerate}
+
+        This approach involves doing $2k$ operations per iteration, where $k$ is the current cardinality of the valid set. 
+        Expanded out, the algorithm does $2n + 2 \cdot \frac{n}{2} + 2 \cdot \frac{n}{4} + \dots 2 \frac{n}{2^i} \approx 4n$ 
+        total work, which is $O(n)$.
 
     \end{enumerate}
     \item dynamic programming ($O(n)$):
@@ -308,9 +339,9 @@
     equal to $\frac{1}{2}$ the difference between $Y$ and $Y$. Thus, when they're swapped, the lesser sum between $X$ and $Y$ 
     increases by $\frac{d}{2}$ and the greater sum decreases by $\frac{d}{2}$ (where $d = |X - Y|$ and $d$ is even), thus making them equal.
 
-    \textbf{Analysis:} My approach uses a hash map to quickly retrieve elements in $X$ that satisfy $X_i + Y_j = \frac{d}{2}$ in 
+    \textbf{Analysis:} My approach uses a hash map to quickly retrieve elements in $X$ that satisfy $X_i + Y_j = \frac{d}{2}$ for some $i, j$ in 
     constant rather than linear time, allowing us to find suitable pairs in amortized $O(max(n, m))$ time instead of $O(n \cdot m)$.
-    The total runtime is amortized $O(max(n, m))$ since both $X$ and $Y$ are iterated over (either to populate the hashmap or to find a suitable $Y_j$). Of course, worst 
+    The total runtime is amortized $O(max(n, m))$ since the addends of both $X$ and $Y$ are iterated over (either to populate the hashmap or to find a suitable $Y_j$). Of course, worst 
     case insertion into a hashmap is $O(n)$, taking the total worst-case runtime to $O(n^2)$, which is only seen in the event of 
     many hash collisions caused by a poor hash function. The total space complexity is $O(n)$, since every addend in $X$ is mapped to its index via the hashmap.
 
