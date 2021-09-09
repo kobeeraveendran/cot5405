@@ -5,7 +5,9 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
-\title{Homework 1 -- COT5405}
+\title{Homework 1 -- COT5405
+    \thanks{For some questions, I received guidance from or collaborated with: Minh Pham, TA (office hours)}
+}
 \author{Kobee Raveendran}
 \date{August 2021}
 
@@ -100,7 +102,7 @@
 
         Substituting: $T(n) = n^{\frac{1}{2} + \frac{1}{4} + \frac{1}{8}}T(n^\frac{1}{8}) + n^{\frac{1}{2} + \frac{1}{4} + \frac{1}{8}} + n + n$\\
 
-        Simplifiying the fractional sums (which converge to 1), we have the general form:
+        Simplifying the fractional sums (which converge to 1), we have the general form:
 
         $T(n) = nT(n^\frac{1}{2^{k + 1}}) + (k + 1)n$\\
 
@@ -309,7 +311,7 @@
         are computed recursively, while the midpoint sum requires iterating from the midpoint to its left 
         and right and computing the max sum manually. See the below example using the array given in the homework problem:
 
-        \centering{
+        \begin{center}
             $[3, -5, 6, 7, 8, -10, 7]$
 
             $[3, -5, 6, 7]$ | $[8, -10, 7]$
@@ -317,12 +319,12 @@
             $[3, -5]$ | $[6, 7]$ | $[8, -10]$ | $[7]$
 
             $[3]$ | $[-5]$ | $[6]$ | $[7]$ | $[8]$ | $[-10]$ | $[7]$
-        }
+        \end{center}
 
         On the way up from the base cases (single elements), the max sums (between the left, right, and across midpoint) 
         are computed:
 
-        \centering{
+        \begin{center}
             $[3, -5, 6, 7, 8, -10, 7] (21 -$ from crossing midpoint$)$
 
             $[3, -5, 6, 7] (13)$ | $[8, -10, 7] (7)$
@@ -330,7 +332,7 @@
             $[3, -5] (-2)$ | $[6, 7] (13)$ | $[8, -10] (-2)$ | $[7](7)$
 
             $[3]$ | $[-5]$ | $[6]$ | $[7]$ | $[8]$ | $[-10]$ | $[7]$
-        }
+        \end{center}
 
         \item
         dynamic programming ($O(n)$):
@@ -375,7 +377,7 @@
     difference between the sums. If so, their sums can only be made equal if the two are swapped, and the difference between the sums must 
     be an even number (if it is odd, swapping any of the numbers would still result in an unequal sum). So, our goal is to 
     find the pair of numbers that contribute ``evenly'' to the difference in the two sums; that is, their difference must be 
-    equal to $\frac{1}{2}$ the difference between $Y$ and $Y$. Thus, when they're swapped, the lesser sum between $X$ and $Y$ 
+    equal to $\frac{1}{2}$ the difference between $X$ and $Y$. Thus, when they're swapped, the lesser sum between $X$ and $Y$ 
     increases by $\frac{d}{2}$ and the greater sum decreases by $\frac{d}{2}$ (where $d = |X - Y|$ and $d$ is even), thus making them equal.
 
     \textbf{Analysis:} My approach uses a hash map to quickly retrieve elements in $X$ that satisfy $X_i + Y_j = \frac{d}{2}$ for some $i, j$ in 
@@ -442,14 +444,18 @@
     \item As mentioned, the naïve implementation will always run in $O(n^2)$ time, since every bolt is exhaustively 
     compared with every nut. However, that approach doesn't take advantage of the fact that after we do a series of $n$ 
     comparisons for a bolt, we have a relative idea of which nuts are smaller than that bolt's nut, and which nuts are 
-    larger. We can then group the nuts into a larger set and smaller set, using the bolt's matching nut as a pivot, like 
-    in quicksort's partitioning algorithm. We can then reference the pivot bolt(s) to narrow down which group the next nut-bolt 
-    combo belongs to, placing them into their appropriate groups until we've ``sorted'' all nut-bolt pairs.
+    larger. This allows us to eliminate smaller nuts as we search for the largest, and likewise for the bolts. The algorithm 
+    would go something like this:
 
-    This quicksort-like approach can give us $O(n\log n)$ average case run-time if we use a randomized partition at each 
-    step. Of course, there's still a chance that we happen to choose the largest, then second largest, then third largest, 
-    etc. bolt as a pivot in each iteration, which can cause the runtime to degenerate to $O(n^2)$, but in almost all cases, we can expect 
-    a $O(n\log n) \in o(n^2)$ runtime.
+    \begin{enumerate}
+        \item pick a random bolt or nut from the pile as a reference piece, and test it against the nuts or bolts, respectively 
+        (I'll henceforth refer to the reference piece as the main piece, and the other as the complementing piece; for example, if the main piece is 
+        a bolt, the counterpiece would be the nut)
+        \item if you encounter a counterpiece that is larger than the main piece, discard the main piece and make the counterpiece 
+        the new main piece. If the counterpiece is smaller, discard it and continue.
+        \item repeat (b) until there are no remaining nuts and bolts; the main piece and counterpiece should now be the 
+        largest nut and bolt pair
+    \end{enumerate}
 \end{enumerate}
 
 \end{document}
