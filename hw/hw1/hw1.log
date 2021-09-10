@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 21.1) (preloaded format=pdflatex 2021.2.4)  9 SEP 2021 22:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 21.1) (preloaded format=pdflatex 2021.2.4)  9 SEP 2021 23:08
 entering extended mode
 **c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex
 (c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex
@@ -277,7 +277,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 264--265
 
  []
 
-[4] [5] [6] [7] (c:/Users\kobee\Documents\coursework\classes\cot5405\hw\hw1\hw1.aux) ) 
+[4] [5] [6] [7] [8] (c:/Users\kobee\Documents\coursework\classes\cot5405\hw\hw1\hw1.aux) ) 
 Here is how much of TeX's memory you used:
  2195 strings out of 479618
  32629 string characters out of 2865027
@@ -287,9 +287,9 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  68i,6n,74p,309b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\kobee\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm0700.pk> <C:\Users\kobee\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1440.pk><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on c:/Users\kobee\Documents\coursework\classes\cot5405\hw\hw1\hw1.pdf (7 pages, 187008 bytes).
+Output written on c:/Users\kobee\Documents\coursework\classes\cot5405\hw\hw1\hw1.pdf (8 pages, 188684 bytes).
 PDF statistics:
- 92 PDF objects out of 1000 (max. 8388607)
+ 95 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

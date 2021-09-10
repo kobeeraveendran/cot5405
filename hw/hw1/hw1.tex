@@ -459,7 +459,20 @@
     in the array (in the worst case), which is impossible. Since this is contradictory, our assumption that $S$ exists and can find the target in 
     $o(n)$ time is also false.
     
-    \item use something like quicksort's partitioning algorithm?
+    \item 
+    \begin{enumerate}
+        \item blah
+        \item blah
+        \item Since the array is $k$-sorted, we know that the elements in each block are almost where they should be when 
+        fully-sorted. For instance, in the problem statement's example, the 1 in the first block can at most be $\frac{n}{k}-1$ indices 
+        away from its true index in the sorted array. We can take advantage of this fact, since it means we do not need to 
+        sort the entire array as a whole; we can just sort each block individually, and the combined sorted blocks would be 
+        sorted, since each block is already in the right place relative to the other blocks by definition of $k$-sorting.
+
+        We can use an optimal comparison-based sorting algorithm that runs in $O(n\log n)$ time to do the sorting within the blocks. 
+        To sort a single block, we would take $O(\frac{n}{k}\log{(\frac{n}{k})})$ time. And since we must run this for 
+        all $k$ blocks, our total complexity would be $O(k \cdot \frac{n}{k}\log{(\frac{n}{k})}) = O(n\log(\frac{n}{k}))$.
+    \end{enumerate}
     
     \item As mentioned, the naïve implementation will always run in $O(n^2)$ time, since every bolt is exhaustively 
     compared with every nut. However, that approach doesn't take advantage of the fact that after we do a series of $n$ 
