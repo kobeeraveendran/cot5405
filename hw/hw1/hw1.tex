@@ -195,7 +195,7 @@
     unhelpful elements can be done in linear time as well, so at any given iteration we will do $\frac{n}{2^i}$ work to find the 
     $k^{th}$-smallest element, and another $\frac{n}{2^i}$ work to remove elements larger than it. Generalized over all iterations, we will do 
     $2n + n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \dots + \frac{n}{2^{i-1}} \approx 4n$ steps of total work, yielding an $O(n)$ total 
-    time complexity. Depending on whether $n$ is a power of 2, and the subsequent amount of pruning work, the constant $c$ 
+    time complexity. Depending on whether $n$ is a power of 2, and the subsequent amount of pruning work, the constant 
     may change, but the runtime will remain linear.
 
     \item \begin{enumerate}
@@ -472,9 +472,26 @@
         (I'll henceforth refer to the reference piece as the main piece, and the other as the complementing piece; for example, if the main piece is 
         a bolt, the counterpiece would be the nut)
         \item if you encounter a counterpiece that is larger than the main piece, discard the main piece and make the counterpiece 
-        the new main piece. If the counterpiece is smaller, discard it and continue.
-        \item repeat (b) until there are no remaining nuts and bolts; the main piece and counterpiece should now be the 
+        the new main piece. If the counterpiece is smaller, discard it and continue. If they match, keep the counterpiece to the side 
+        (as you may have found the largest matching pair), and continue comparing with the main piece
+        \item repeat (b) until there are no remaining nuts or bolts; the main piece and it's counterpiece should now be the 
         largest nut and bolt pair
+    \end{enumerate}
+
+    As a small example, consider a pile of 4 nuts and 4 bolts, with sizes $[1, 4]$ (the bolt number will correspond to its 
+    size for simplicity). Let $B$ be the set of available bolts, $N$ be the set of available nuts, and $S$ be the bolts/nuts 
+    left to the side or in hand. Walking through the algorithm:
+
+    \begin{enumerate}
+        \item pick up a bolt, say bolt 2; our two sets are now $B = \{1, 3, 4\}, N = \{1, 2, 3, 4\}, S = \{B_2\}$
+        \item pick up a nut, i.e. nut 1. nut 1 is smaller than the nut that would fit bolt 2, so discard nut 1; $B = \{1, 3, 4\}, N = \{2, 3, 4\}, S = \{B_2\}$
+        \item pick up another nut, i.e. nut 3. After comparing, we see nut 3 is larger than bolt 2, so discard bolt 2; $B = \{1, 3, 4\}, N = \{2, 4\}, S = \{N_3\}$
+        \item pick up a bolt, say bolt 3. It matches nut 3, so keep nut 3 to the side and continue comparing with bolt 3; $B = \{1, 4\}, N = \{2, 4\}, S = \{B_3, N_3\}$
+        \item pick up a nut, i.e. nut 4. It's larger than bolt 3 so discard bolt 3 and nut 3 and continue. $B = \{1, 4\}, N = \{2\}, S = \{N_4\}$
+        \item pick up a bolt, i.e. bolt 4. It matches so keep nut 4 to the side and continue; $B = \{1\}, N = \{2\}, S = \{B_4, N_4\}$
+        \item pick up a nut, i.e. nut 2. It's smaller than bolt 4 so discard it. $B = \{1\}, N = \{\}, S = \{B_4, N_4\}$
+        \item we have run out of nuts to compare, so the nut we have in side must be the largest nut. The bolt we have in side matches it, 
+        so it must also be the largest bolt.
     \end{enumerate}
 \end{enumerate}
 
