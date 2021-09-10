@@ -135,9 +135,8 @@
         
         Steps:
 
-        can't directly apply the Master theorem, but we can split the RHS since we can assume that $T(\frac{n}{4}) \leq T(\frac{n}{2})$ 
-        (since less of the input is processed in the recursive call where the input is quartered rather than  halved), 
-        leaving us with the following true inequality:
+        can't directly apply the Master theorem, but we can split the RHS since we can assume that $T(\frac{n}{4}) \leq T(\frac{n}{2})$. 
+        Both recurrences would still incur the $n\log n$ work in each call, so our inequality would look like this:
 
         \centerline{$2T(\frac{n}{4}) + n\log n \leq T(n) \leq 2T(\frac{n}{2}) + n\log n$}
 
@@ -175,7 +174,7 @@
     This naive approach, however, is only needed if we had to make use of the entire array after finding each $k^{th}$-smallest 
     element. In this case though, after we find a $k^{th}$-smallest element, everything that was less than it is not useful 
     in our search for the $(k+1)^{st}$-smallest element. So instead, we can try reducing the median of medians search space 
-    after each $k^{th}$-smallest element is found, by removing any invalid candidates once the $k^{th}$-smallest is found. 
+    after each $k^{th}$-smallest element is found, by removing any invalid candidates (anything smaller than the $k^{th}$-smallest). 
     Since earlier powers of 2 are closer together, I instead opt to start from the last power of 2 and work backwards, pruning 
     elements \textit{larger} than the $k^{th}$-smallest, to prune more of the search space earlier. The pruning process 
     may either create a new array of valid elements or use a linked list to support fast removal of all invalid elements 
@@ -192,8 +191,10 @@
     \end{enumerate}
 
     In general, this approach will find all such $k^{th}$ smallest elements in $O(n)$ time, because during each step, we 
-    are processing approximately half the array of the previous iteration (since the other half is discarded), giving us 
-    $n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \dots + \frac{n}{2^i} \approx cn$ steps of total work, yielding an $O(n)$ total 
+    are processing approximately half the array of the previous iteration (since the other half is discarded). Removing 
+    unhelpful elements can be done in linear time as well, so at any given iteration we will do $\frac{n}{2^i}$ work to find the 
+    $k^{th}$-smallest element, and another $\frac{n}{2^i}$ work to remove elements larger than it. Generalized over all iterations, we will do 
+    $2n + n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \dots + \frac{n}{2^{i-1}} \approx 4n$ steps of total work, yielding an $O(n)$ total 
     time complexity. Depending on whether $n$ is a power of 2, and the subsequent amount of pruning work, the constant $c$ 
     may change, but the runtime will remain linear.
 
@@ -438,6 +439,25 @@
             \EndWhile
         \end{algorithmic}
     \end{algorithm}
+
+    To prove that we cannot achieve an $o(n)$ runtime, we can disprove the assumption that an $o(n)$ algorithm exists for 
+    this problem. To do that, we can observe that we also cannot solve a subset of this problem in $o(n)$ time. 
+
+    In our grid, the bottom-to-top diagonal may not necessarily be sorted. This means that the diagonal 
+    can be treated as an unsorted 1-D array, $B$. We know that to search for a target value in $B$, an optimal algorithm 
+    would need to traverse all $n$ elements in $B$ since $B$ is unsorted, taking $\Omega(n)$ time.
+
+    The contradictory claim we make would be as follows: assume an algorithm $S$ exists that can find a target element in the 
+    2-D array (as described in the problem statement) in $o(n)$ time. Now construct a matrix $A'$ such that its diagonal would 
+    be an unsorted list, like $B$. Assume the search target $x$ is in the diagonal, and thus all cells above the diagonal 
+    would be strictly less than $x$, while all cells below the diagonal would be strictly greater than $x$.
+
+    If $S$ were to find $x$ in $A'$ (the matrix with $B$ as its diagonal), it follows that $S$ would also find $x$ in $B$ 
+    (the unsorted 1-D array) as well, and if $x$ is not found in $A'$, it must also not be in $B$. This transforms the 2-D 
+    search into an indirect 1-D search. This means that, if $S$ were to find $x$ in $A'$ in $o(n)$ time, it must also have found 
+    $x$ in $B$ in $o(n)$ time. In other words, it has found an element in an unsorted array without needing to process all $n$ elements 
+    in the array (in the worst case), which is impossible. Since this is contradictory, our assumption that $S$ exists and can find the target in 
+    $o(n)$ time is also false.
     
     \item use something like quicksort's partitioning algorithm?
     

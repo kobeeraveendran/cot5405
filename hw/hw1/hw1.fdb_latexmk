@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1631205663 "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf" "hw1" 1631205664
+["pdflatex"] 1631240313 "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf" "hw1" 1631240314
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm0700.pk" 1631125257 8268 7dc77aba273dc0600a6c0a264bdb48b0 ""
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1440.pk" 1631125321 16968 302c324738093ad204f1ee5548ec8ddc ""
   "C:/Users/kobee/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1612424578 9293900 2bdc09d991a270a5a7d4cbca267ec166 ""
@@ -38,6 +38,8 @@
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1247596667 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1247596667 32726 39f0f9e62e84beb801509898a605dbd5 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1247596667 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb" 1247596667 32587 65067f817f408bc71a7312f3d9828a9b ""
+  "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1247596667 32626 5abc8bb2f28aa647d4c70f8ea38cc0d3 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb" 1247596667 36118 fad905eba93cff5bce1e185fe980a177 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb" 1247596666 24252 1e4e051947e12dfb50fee0b7f4e26e3a ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/generic/iftex/iftex.sty" 1583527000 6501 4011d89d9621e0b0901138815ba5ff29 ""
@@ -58,13 +60,13 @@
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty" 1578057145 42759 9cf6c5257b1bc7af01a58859749dd37a ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty" 1601745126 2677 e3b24ff953e5b58d924f163d25380312 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1611919724 27097 58278863d97b10ab86e334b8da33df7a ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.aux" 1631205664 570 6e27abd5a5702292ebab850072d3af8b ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" 1631205662 24124 cf63b0aece9df579a59d0a958856fa45 ""
-  "hw1.aux" 1631205664 570 6e27abd5a5702292ebab850072d3af8b "pdflatex"
-  "hw1.tex" 1631205662 24124 cf63b0aece9df579a59d0a958856fa45 ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.aux" 1631240314 570 6e27abd5a5702292ebab850072d3af8b ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" 1631240312 26122 9563caf2bb5f4c4995b0a14383856d94 ""
+  "hw1.aux" 1631240314 570 6e27abd5a5702292ebab850072d3af8b "pdflatex"
+  "hw1.tex" 1631240312 26122 9563caf2bb5f4c4995b0a14383856d94 ""
   (generated)
-  "hw1.log"
-  "hw1.pdf"
   "hw1.aux"
   "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.log"
   "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf"
+  "hw1.pdf"
+  "hw1.log"
