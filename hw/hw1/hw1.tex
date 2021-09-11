@@ -174,97 +174,97 @@
     This naive approach, however, is only needed if we had to make use of the entire array after finding each $k^{th}$-smallest 
     element. In this case though, after we find a $k^{th}$-smallest element, everything that was less than it is not useful 
     in our search for the $(k+1)^{st}$-smallest element. So instead, we can try reducing the median of medians search space 
-    after each $k^{th}$-smallest element is found, by removing any invalid candidates (anything smaller than the $k^{th}$-smallest). 
-    Since earlier powers of 2 are closer together, I instead opt to start from the last power of 2 and work backwards, pruning 
-    elements \textit{larger} than the $k^{th}$-smallest, to prune more of the search space earlier. The pruning process 
-    may either create a new array of valid elements or use a linked list to support fast removal of all invalid elements 
-    (to avoid more than $O(\frac{n}{i})$ pruning-related work each $i^{th}$ iteration).
+    after each $k^{th}$-smallest element is found, by ignoring all elements that cannot be valid candidates for the next smallest element
+    (anything smaller than the $k^{th}$-smallest). Since earlier powers of 2 are closer together, I instead opt to start from the last power of 2 and work backwards, pruning 
+    elements \textit{larger} than the $k^{th}$-smallest, to reduce more of the search space earlier. And since median of medians 
+    yields an array partitioned around the $k^{th}$-smallest element, we can just continually recurse on the half of the array to 
+    find the $(k+1)^{st}$-smallest element. 
 
-    The steps would go as follows:
+    In short, the algorithm would operate as follows:
 
     \begin{enumerate}
-        \item initialize $i$ such that $k = 2^i$ is the greatest power of 2 that is $\leq n$
-        \item run median of medians to find the $2^{i}$-th smallest element
-        \item prune the array by removing all elements greater than the $2^i$-th smallest element. In almost all iterations, this 
-        will remove half of the current iteration's search space.
-        \item decrement $i$ and repeat steps (b) and (c) for all $i \geq 0$.
+        \item initialize $i$ such that $k = 2^i$ is the greatest power of 2 that is $\leq n$: $i = \lfloor \log n\rfloor$
+        \item run median of medians to find the $2^{i}$-th smallest element; the array will now be partitioned around the 
+        $2^i$-th smallest element, with the left half being less than it and the right half being greater than it
+        \item decrement $i$ and repeat steps (b) and (c) by calling median of medians on the left partition; repeat while $i \geq 0$.
     \end{enumerate}
 
     In general, this approach will find all such $k^{th}$ smallest elements in $O(n)$ time, because during each step, we 
-    are processing approximately half the array of the previous iteration (since the other half is discarded). Removing 
-    unhelpful elements can be done in linear time as well, so at any given iteration we will do $\frac{n}{2^i}$ work to find the 
-    $k^{th}$-smallest element, and another $\frac{n}{2^i}$ work to remove elements larger than it. Generalized over all iterations, we will do 
-    $2n + n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \dots + \frac{n}{2^{i-1}} \approx 4n$ steps of total work, yielding an $O(n)$ total 
-    time complexity. Depending on whether $n$ is a power of 2, and the subsequent amount of pruning work, the constant 
-    may change, but the runtime will remain linear.
+    are processing approximately half the array of the previous iteration (in the general case). At any given iteration 
+    we will do $\frac{n}{2^i}$ work to find the $k^{th}$-smallest element, then call the function again for half the current subarray. 
+    Generalized over all iterations, we will do $n + \frac{n}{2} + \frac{n}{4} + \frac{n}{8} + \dots + \frac{n}{2^{i}} \approx 2n$ 
+    steps of total work. Depending on whether $n$ is a power of 2, the coefficient will change, but the runtime will remain 
+    $O(n)$.
 
     \item \begin{enumerate}
         \item
         
-        for a set of integers in an interval, roughly $\frac{1}{2}$ of them will have a most-signifcant bit of 1, while the 
+        for a set of integers in the interval $[0, n]$, roughly half of them will have a most-signifcant bit of 1, while the 
         other half will have a most significant bit of 0. Since John's array is sorted, we know that the most significant 
-        bit of the numbers in $A[1, \frac{n}{2}]$, is 0, while the most significant 
+        bit of the numbers in $A[0, \frac{n}{2}]$, is 0, while the most significant 
         bit of the numbers in $A[\frac{n}{2}, n]$ is 1. So, the process for finding the missing integer could be as follows:
         
         \begin{enumerate}
-            \item ask John for the most significant bit of the $A[\frac{n}{2}]$; this gives us 
+            \item ask John for the most significant bit of $A[\frac{n}{2}]$; this gives us 
             the element at the inflection point, where the most significant bit would have changed from 0 to 1. Since one 
-            element is missing however, we know that the number of integers with leading bit 0 and leading bit 1 are not equal, 
-            so one ``half'' has one more element than the other. This means the element in the middle must belong to the half 
+            element is missing however, we know that the number of integers with leading bit 0 and leading bit 1 may not be equal, 
+            so one ``half'' is shifted up or down by one index (if $n$ is odd, there should be an equal number of leading 0's as 1's, 
+            and if even, there should normally be 1 more leading 0 than 1; removing a number upsets this balance). This means the element in the middle must belong to the half 
             that \textit{isn't} missing the integer.
             \item Thus, if the $j^{th}$ bit of the middle element is a 1, we know the missing integer's $j^{th}$ bit is a 0 
-            (bottom half of the interval), and vice versa. Once we know which half of the interval to search in, we can eliminate 
-            the other half as a possibility.
+            (and so must belong in the bottom half of the interval), and vice versa. Once we know which half of the interval to search in, we can eliminate 
+            the other half.
             \item Once we determine the correct ``half'' of the interval, we can increment $j$ (so now, we will ask John about the $2^{nd}$ 
             most significant bit), and this time ask for this $j^{th}$ bit at $A[\frac{n}{4}]$ and $A[\frac{n}{4} + 1]$ or 
             $A[\frac{3n}{4}]$ and $A[\frac{3n}{4} + 1]$, depending on what we found in step ii.
             \item From here, we can repeat steps i., ii., and iii. in a manner similar to binary search, by repeatedly cutting 
-            the search space in half each time and asking John about the inflection points. Each time we limit the search space, 
-            we can ``fill in'' the $j^{th}$ bit of the missing number. This process will continue recursively until the final bit is 
+            the search space in half each time and asking John about the midpoints. Each time we limit the search space, 
+            we can ``fill in'' the $j^{th}$ bit of the missing number. This process will continue recursively until the ${\log n}^{th}$ bit is 
             reached and its value is filled in, giving us the complete binary representation of the missing number.
-            \item since the search space is cut in half after each question, and only one question is asked each time the 
-            search space is limited (i.e. only one element is ``processed'' in $O(1)$), the runtime of this algorithm is $O(\log n)$
+            \item since the search space is cut in half after each question and the array is sorted, we only need to ask 
+            1 question per bit to find the missing number's $j^{th}$ bit. We need $\lceil\log n\rceil$ bits to represent 
+            numbers in the range $[1, n]$, so we only need to ask John $\lceil\log n\rceil$ total questions.
         \end{enumerate}
 
         \newpage
 
-        Below is a toy example of this, with numbers in the range of 0 to 7, with 1 being the missing integer. Note that all arrays here 
+        Below is a toy example of this, with numbers in the range of 0 to 6, with 1 being the missing integer. I use $\frac{n}{2}$
+        as the midpoint, where $n$ is the length of the subarray. Note that all arrays here 
         are 0-indexed, and bits are indexed from the most- to least-significant bit for simplicity. For example, $A[i][j]$ signifies the $j^{th}$ bit 
         (from the left) of $A[i]$.
 
         \begin{enumerate}
-            \item binary representations:
-            
-            111
+            \item John's sorted array in binary form:
 
-            110
+            A[5]: 110
 
-            101
+            A[4]: 101
 
-            100
+            A[3]: 100
 
-            011
+            A[2]: 011
 
-            010
+            A[1]: 010
 
-            000\\
+            A[0]: 000\\
 
             \item ask John for $A[3][0]$; it's a 1, so the missing number should be in the lower half. 
             Thus, our currently ``built'' representation of the missing number is ``0''. The subarray to search in now is:\\
             
-            011
+            A[2]: 011
 
-            010
+            A[1]: 010
 
-            000\\
+            A[0]: 000\\
 
             \item Ask John for $A[1][1]$; it's 1, so again the missing number is in the lower half. So, we 
             add another 0 to our missing number's representation, which is now ``00''. The subarray is now:\\
             
-            000\\
+            A[0]: 000\\
 
             \item We have only 1 number left, and we ask John for $A[0][2]$, which is 0, so we know the missing number's rightmost bit must 
-            be 1. Appending that to our current representation, we find that the missing integer is ``001'' = 1.
+            be 1 (if there was an upper half, we would go there, but we've already filled in all bits after this iteration). Appending that to our current representation, we find that 
+            the missing integer is ``001'' = 1.
 
         \end{enumerate}
 
@@ -274,24 +274,24 @@
         manually. We can do this by first narrowing down the $j^{th}$ bit of the missing integer with $n$ questions, then eliminating 
         integers that do not have the same $j^{th}$ bit, which should be half of them. This would require $2n$ operations 
         per iteration: $n$ questions to find the missing number's $j^{th}$ bit, and another $n$ questions to find and keep
-        any integers that don't have the same $j^{th}$ bit. In the next iteration, we'd repeat the process on $\frac{n}{2}$ 
+        any integers that have the same $j^{th}$ bit as the missing integer. In the next iteration, we'd repeat the process on $\frac{n}{2}$ 
         integers, then the next on $\frac{n}{4}$ integers, etc. until we are left with 1 integer.
 
         The steps could go like this:
 
         \begin{enumerate}
-            \item initialize an (unordered) set with all numbers from 1 to $n$; this will serve to track which indices $i$ in 
-            $A$ will be valid, since we don't actually know the values of the integers themselves.
+            \item initialize an (unordered) set with all numbers from 0 to $n$ (exclusive); this will serve to track which indices $i$ in 
+            $A$ will be valid.
 
             \item ask John for the leftmost ($0^{th}$) bit of all numbers in the set, counting the number of 1's and 0's. If the number of 0's 
             is $\leq$ the number of 1's, the missing number's leftmost ($0^{th}$) bit is 0; else it's a 1.
 
             \item once again ask John for the $j^{th}$ bit (where $j$ is now 1) of all available numbers in the set, but remove numbers whose 
-            $j^{th}$ bit does not match the missing number's $j^{th}$ bit. This leaves us with only the halved search space 
-            for the next iteration.
+            $j^{th}$ bit does not match the missing number's $j^{th}$ bit. This leaves us with half of the search space from the 
+            previous iteration.
 
-            \item repeat steps ii. and iii. until the set contains 1 element. It's rightmost bit must be the inverse of the 
-            missing number's, so fill it in and end the loop.
+            \item repeat steps ii. and iii. until the set contains 1 index. That index's element's rightmost bit must be the inverse of the 
+            missing number's rightmost bit, so fill it in and end the loop.
         \end{enumerate}
 
         This approach involves doing $2k$ operations per iteration, where $k$ is the current cardinality of the valid set. 
@@ -461,16 +461,65 @@
     
     \item 
     \begin{enumerate}
-        \item blah
-        \item blah
+        \item From viewing the blocks in a $k$-sorted array, it's evident that there is a partition-like structure in the blocks, 
+        since the elements in each block are greater than those of previous blocks and less than those of later blocks. We can 
+        thus try partitioning the array recursively until we reach depth $\log k$, at which point the combined subarrays will be 
+        $k$-sorted. The pivots used in each partitioning call would be the ``boundaries'' between blocks as seen in the 
+        example.\\
+
+        Here's how this might work with an example. The goal is to 4-sort the array [7, 4, 12, 15, 9, 1, 6, 11, 2, 10, 5, 3, 14, 13, 16]. 
+        It should be done in $\log 4 = 2$ steps of partitioning:
+
+        \begin{enumerate}
+            \item original array ($k = 0$): [7, 4, 12, 15, 9, 1, 6, 11, 2, 10, 5, 3, 14, 13, 16]
+            \item ($k = 1$) 1st step of median of medians (MoM) partitioning: ($M = [9, 6, 13]$, $MoM$ is 9). After 
+            partitioning, we have:
+            
+            \begin{center}
+                [7, 4, 1, 6, 2, 5, 3, 9, 12, 15, 11, 10, 14, 13, 16]
+            \end{center}
+
+            \item recursively call on left and right halves of partition (of course, include the partition in one of the halves)
+            \item ($k = 2$) 2nd step of $MoM$ partitioning on the halves:\\
+            
+            left half: [7, 4, 1, 6, 2, 5, 3], $M = [4, 5]$, MoM is 5. After partitioning, we have:\\
+
+            \begin{center}
+                [4, 1, 2, 3, 5, 7, 6]
+            \end{center}
+            
+            right half: [9, 12, 15, 11, 10, 14, 13, 16], $M = [11, 14]$, $MoM$ is 14. After partitioning, we have:
+
+            \begin{center}
+                [9, 12, 11, 10, 13, 14, 15, 16]
+            \end{center}
+
+            \item when combined (returning up the call stack), the array is now $k$-sorted:
+            
+            \begin{center}
+                [4, 1, 2, 3 \textbar  5, 7, 6 \textbar  9, 12, 11, 10 \textbar  13, 14, 15, 16]
+            \end{center}
+
+        \end{enumerate}
+
+        We are continually dividing the array in half around the MoM pivot, and the $MoM$ partitioning happens in $O(m)$ 
+        time, where $m$ is the number of elements in the subarray. We arrive at the $k$-sorted array in $\log k$ steps, 
+        and each step incurs $O(n)$ total work for partitioning (since we are technically processing every element in the 
+        array at some point in the recursive level), so our final runtime is $O(n\log k)$.
+
+        \item We can prove this using a proof by contradiction. Our claim will be that we can $k$-sort any array with 
+        less than $n\log k$ comparisons. In the worst case, $k = n$ which means the array is fully sorted (each block is of 
+        size 1). And, to fully sort any array via comparison, we know that optimal algorithms like mergesort require $n\log n$ 
+        comparisons. This is a contradiction, since we claimed to be able to $k$-sort with less than $n\log k$ comparisons 
+        (and $k = n$).
         \item Since the array is $k$-sorted, we know that the elements in each block are almost where they should be when 
-        fully-sorted. For instance, in the problem statement's example, the 1 in the first block can at most be $\frac{n}{k}-1$ indices 
-        away from its true index in the sorted array. We can take advantage of this fact, since it means we do not need to 
+        fully-sorted. For instance, in the problem statement's example, the 1 in the first block can be \textit{at most} $\frac{n}{k}-1$ indices 
+        away from its true index in the fully sorted array. We can take advantage of this fact, since it means we do not need to 
         sort the entire array as a whole; we can just sort each block individually, and the combined sorted blocks would be 
         sorted, since each block is already in the right place relative to the other blocks by definition of $k$-sorting.
 
         We can use an optimal comparison-based sorting algorithm that runs in $O(n\log n)$ time to do the sorting within the blocks. 
-        To sort a single block, we would take $O(\frac{n}{k}\log{(\frac{n}{k})})$ time. And since we must run this for 
+        To sort a single block, we would thus take $O(\frac{n}{k}\log{(\frac{n}{k})})$ time. And since we must run this for 
         all $k$ blocks, our total complexity would be $O(k \cdot \frac{n}{k}\log{(\frac{n}{k})}) = O(n\log(\frac{n}{k}))$.
     \end{enumerate}
     
