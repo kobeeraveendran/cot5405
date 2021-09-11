@@ -18,8 +18,11 @@ def ksort(arr, i):
 
     k = len(low)
 
-    ksort(low, i)
-    ksort(high, i - k - 1)
+    if i < k:
+        return ksort(low, i)
+
+    elif i > k:
+        return ksort(high, i - k - 1)
 
     return pivot
 
