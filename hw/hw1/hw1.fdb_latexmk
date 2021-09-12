@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1631363924 "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf" "hw1" 1631363933
+["pdflatex"] 1631413398 "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf" "hw1" 1631413469
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm0700.pk" 1631125257 8268 7dc77aba273dc0600a6c0a264bdb48b0 ""
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1440.pk" 1631125321 16968 302c324738093ad204f1ee5548ec8ddc ""
   "C:/Users/kobee/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1612424578 9293900 2bdc09d991a270a5a7d4cbca267ec166 ""
@@ -60,13 +60,13 @@
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty" 1578057145 42759 9cf6c5257b1bc7af01a58859749dd37a ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty" 1601745126 2677 e3b24ff953e5b58d924f163d25380312 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1611919724 27097 58278863d97b10ab86e334b8da33df7a ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.aux" 1631363925 570 bcb1a88d86b2946b1bd0a474de1fbde2 ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" 1631363932 32410 dea1925adc897d92c64ff143fef7aebe ""
-  "hw1.aux" 1631363925 570 bcb1a88d86b2946b1bd0a474de1fbde2 "pdflatex"
-  "hw1.tex" 1631363932 32410 dea1925adc897d92c64ff143fef7aebe ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.aux" 1631413399 570 bcb1a88d86b2946b1bd0a474de1fbde2 ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.tex" 1631413467 33096 193f7d2ad93822ac0bad178e9d897272 ""
+  "hw1.aux" 1631413399 570 bcb1a88d86b2946b1bd0a474de1fbde2 "pdflatex"
+  "hw1.tex" 1631413467 33096 193f7d2ad93822ac0bad178e9d897272 ""
   (generated)
-  "hw1.aux"
-  "hw1.log"
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf"
-  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.log"
   "hw1.pdf"
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.pdf"
+  "hw1.log"
+  "c:/Users/kobee/Documents/coursework/classes/cot5405/hw/hw1/hw1.log"
+  "hw1.aux"

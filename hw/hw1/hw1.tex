@@ -135,8 +135,9 @@
         
         Steps:
 
-        can't directly apply the Master theorem, but we can split the RHS since we can assume that $T(\frac{n}{4}) \leq T(\frac{n}{2})$. 
-        Both recurrences would still incur the $n\log n$ work in each call, so our inequality would look like this:
+        we can rationally assume that $T(\frac{n}{4}) \leq T(\frac{n}{2})$, and try to narrow down the 
+        runtime of $T(n)$ since it is sandwiched between the two. Both recurrences would still incur the 
+        $n\log n$ work in each call, so our inequality could look like this:
 
         \centerline{$2T(\frac{n}{4}) + n\log n \leq T(n) \leq 2T(\frac{n}{2}) + n\log n$}
 
@@ -374,7 +375,7 @@
     \end{enumerate}
     
     \item idea: If the two sums $X$ and $Y$ are unequal but can be made equal by swapping their addends, it should be the 
-    case that one sum has an added that ``over-contributes'' to it while the other sum has an added that ``under-contributes'', causing the 
+    case that one sum has an addend that ``over-contributes'' to it while the other sum has an addend that ``under-contributes'', causing the 
     difference between the sums. If so, their sums can only be made equal if the two are swapped, and the difference between the sums must 
     be an even number (if it is odd, swapping any of the numbers would still result in an unequal sum). So, our goal is to 
     find the pair of numbers that contribute ``evenly'' to the difference in the two sums; that is, their difference must be 
@@ -411,13 +412,16 @@
 
     \item idea: since the rows and columns are sorted, we can eliminate entire sections of the grid if we find an element 
     is greater than or lesser than the target to be found. In the case where an element of the matrix $A[i][j]$ is greater 
-    than the target, we can eliminate a rectangular section of the grid; that is, all cells with $row > i$ and $col > j$, since 
+    than the target, we can eliminate cells with $row > i$ and $col > j$, since 
     all of those elements will also be greater than the target. We'd then increment the row $i$ and try again. The inverse 
     applies if the current element is less than the target; we'd instead eliminate all cells with $row < i$ and $col < j$, 
     since the target is larger than them. We'd then decrement the column $j$ and try again. If $A[i][j]$ is ever equal to 
-    the target, we've found it; else, if the loop ends, the target must not exist in the matrix.
+    the target, we've found it; else, if the loop ends, the target must not exist in the matrix. We can start by initializing 
+    the current cell to the top right corner of the matrix. After each iteration, the current cell will move either 
+    down or to the left, eliminating rows and columns as we go along. Thus, at worst, we will have to cover $n + n$ cells, 
+    giving us a runtime of $O(n)$.
     
-    This is demonstrated more explicitly in algorithm \ref{alg:gridsearch}.
+    This algorithm is demonstrated more explicitly in algorithm \ref{alg:gridsearch}.
     
     \begin{algorithm}
         \caption{Iterative elimination approach ($O(n)$ time with constant space)}\label{alg:gridsearch}
@@ -464,8 +468,10 @@
         \item From viewing the blocks in a $k$-sorted array, it's evident that there is a partition-like structure in the blocks, 
         since the elements in each block are greater than those of previous blocks and less than those of later blocks. We can 
         thus try partitioning the array recursively until we reach depth $\log k$, at which point the combined subarrays will be 
-        $k$-sorted. The pivots used in each partitioning call would be the ``boundaries'' between blocks as seen in the 
-        example.\\
+        $k$-sorted. We know it will be $k$-sorted because the pivots and subarray bounds used in each partitioning call would serve as the ``boundaries'' 
+        between blocks as seen in the example, and by definition these $k - 1$ pivots will have lesser elements to their left 
+        and greater elements to their right. The recursion tree would resemble a binary search tree, and our 
+        $k$-sorted array would simply be a concatenation of the ``leaves'' (which are subarrays) at the $\log k$-th level.\\
 
         Here's how this might work with an example. The goal is to 4-sort the array [7, 4, 12, 15, 9, 1, 6, 11, 2, 10, 5, 3, 14, 13, 16]. 
         It should be done in $\log 4 = 2$ steps of partitioning:
