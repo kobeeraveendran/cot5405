@@ -17,24 +17,117 @@
 \maketitle
 
 \begin{enumerate}
-    \item \textbf{Prove or disprove that a HEAP can support the following operations in o(log n) time: 
+    \item \textbf{Prove or disprove that a HEAP can support the following operations in $o(log n)$ time: 
     (i) insert($x$): insert an element $x$ into the HEAP and (ii) \texttt{extract\_min\_max}: extract either 
     the minimum or the maximum element (the HEAP won't tell if the extracted element is the min 
     or max) [Hint: Prove by contraction via sorting lower bound].}
-    \item \textbf{A binomial heap can perform both insertions and extract min operations in O(log n) 
+    \item \textbf{A binomial heap can perform both insertions and extract min operations in $O(\log n)$ 
     worst-case time. By proposing an appropriate potential function, show that the amortized 
-    cost of insertion is O(1) and the amortized cost of extract min is O(log n).}
+    cost of insertion is $O(1)$ and the amortized cost of extract min is $O(\log n)$.}
     \item \textbf{[Range Query Data Structure]: Let S be a (dynamic) set of items, where each item is 
     associated with a unique "key" (a positive number) and a unique "weight" (a positive 
-    number). Therefore each item can be represented as a (key, weight) pair. Design an O(n) 
+    number). Therefore each item can be represented as a (key, weight) pair. Design an $O(n)$ 
     space data structure that can support the following operations on S in O(log n) time, where 
     n is the cardinality of S: (i) insert a new item into S (ii) RangeQuery[a,b]: report the 
     item with the highest weight among all items in S with the key within the range [a,b].}
-    \item \textbf{Design an O(k log k) time algorithm to find the kth smallest number from a set 
-    of n numbers arranged in the form of a binary min-heap (where n >>k). Improve the time 
-    complexity to O(k log log k). Note that the trivial solution takes O(k log n) time (i.e., 
+    \item \textbf{Design an $O(k\log k)$ time algorithm to find the kth smallest number from a set 
+    of n numbers arranged in the form of a binary min-heap (where $n \gg k$). Improve the time 
+    complexity to $O(k\log \log k)$. Note that the trivial solution takes $O(k\log n)$ time (i.e., 
     by simply doing extract min k times).}
     \href{http://160592857366.free.fr/joe/ebooks/ShareData/An%20Optimal%20Algorithm%20for%20Selection%20in%20a%20Min-Heap.pdf}{\textbf{[Hint]}}
+
+    To achieve an $O(k\log k)$ algorithm, we can use a two-heap strategy. We can achieve this time by observing that 
+    the $k^{th}$ smallest element in a min-heap will be at or above the $k^{th}$ level in the heap, which means 
+    that section of the heap is all we need to interact with. However, we can't perform any of the heap-related operations 
+    in our original heap since it contains all $n$ elements, which would give us a $O(k\log n)$ runtime. This is why 
+    we need the second heap, which we can keep at a size of at most $k$, allowing us to achieve $O(\log k)$ heap operations.
+    
+    We will first start with the original heap, and a second heap that initially only contains the root of the original 
+    heap. Then, for $k - 1$ steps, we can do the following:
+
+    \begin{enumerate}
+        \item extract the min element from the second heap
+        \item find the extracted element's children in the original heap (they'll be at indices $2i$ and $2i + 1$, where 
+        $i$ was the index of the extracted element in the original heap) and insert them into the second heap
+    \end{enumerate}
+
+    By the end of the $k - 1$ steps, the min element in the second heap will be the $k^{th}$ smallest element in the original 
+    heap. For the $k$ iterations, we incur $\log k$ work to perform heap insertion and removal operations in the 
+    second heap (remember, we do not actually do any re-heapification on the original heap, as we just do read-only interactions 
+    with children nodes via array indexing; all heapify operations are done in the second heap). This gives us a final 
+    runtime of $O(k\log k)$.
+
+    To reach an $O(k\log \log k)$ runtime, we can use the approach suggested in the paper, which is more nuanced but is 
+    still somewhat of an extension of the previous algorithm, in that we are still using an auxiliary heap but are 
+    interested in solving the problem in subtrees of the heap at a time.
+
+    Before describing the algorithm, I've described some terminology from the paper that must be discussed for it to make sense:
+
+    \begin{itemize}
+        \item a \textbf{clan} is a grouping of the elements from the input heap. In this algorithm, all clans will have a 
+        size of $\lfloor \log k \rfloor$. The first clan ($C_1$) would contain the first $\lfloor \log k \rfloor$ smallest 
+        elements, the second clan $C_2$ would have the 2nd $\lfloor \log k \rfloor$ smallest, etc. Clans are generated 
+        from previous clans, one by one in an iterative manner, as we progress through the algorithm.
+        
+        \item \textbf{offspring} of the $i^{th}$ clan, denoted $os(C_i)$ in the paper, are simply the $\lfloor \log k \rfloor$ smallest 
+        children of the elements of a clan (from the original heap) that are not also in the clan. For example, if an arbitrary 
+        node (that has 2 children) and its right child are both part of a clan, its offspring set could include the node's left 
+        child and both of its right child's children, but not the right child itself.
+
+        \begin{itemize}
+            \item in the paper's example, a clan being ``grown from'' another clan simply means that the previous clan's 
+            $\lfloor \log k \rfloor$ smallest offspring are selected to form the new clan. Keep in mind that a clan can have 
+            more than $\lfloor \log k \rfloor$ offspring, but here only the smallest $\lfloor \log k \rfloor$ are selected
+        \end{itemize}
+
+        \item the \textbf{poor relations} of a clan $C_i$ are any offspring of the $C_{i - 1}$-st clan than were not part 
+        of $C_i$. As mentioned in the previous point, a clan can have more than $\lfloor \log k \rfloor$ offspring; these 
+        leftover offspring form the poor relations of the next clan.
+
+        \item the \textbf{representative} of a clan is just the largest element in that clan
+    \end{itemize}
+
+    Without further ado, here's how the SEL1 algorithm would go about finding the $k^{th}$ smallest element in 
+    $O(k\log \log k)$ time:
+    
+    \begin{enumerate}
+        \item we start with the input heap $H_0$ and an auxiliary heap $H_2$
+        \item use $H_2$ to find the $\lfloor \log k \rfloor$ smallest elements in $H_0$; these will form our first clan. 
+        Determine the set of this clan's offspring $os(C_1)$, and set $pr(C_1)$ to the empty set (as there are no 
+        poor relations for the first clan).
+        \item find the representative of $C_1$ and insert it into a different heap, $H_1$
+        \item For $\lceil \frac{k}{\lfloor \log k \rfloor} \rceil$ steps, do the following:
+        \begin{enumerate}
+            \item extract the min element of $H_1$ (initially the representative of $C_1$)
+            \begin{itemize}
+                \item let $C_j$ be the clan that the extracted element was a part of
+                \item with $H_2$, find the $\lfloor \log k \rfloor$ smallest offspring of $C_j$; these elements will form 
+                clan $C_i$ ($i$ represents the number of clans generated until now)
+            \end{itemize}
+            \item determine this new clan's offspring set and it's associated poor relations set
+            \item if the poor relations set is non-empty, again find the $\lfloor \log k \rfloor$ smallest offspring, but 
+            this time relative to the elements in the poor relations set. These will be clan $C_{i + 1}$
+            \item again determine the offspring set and poor relations set for $C_{i + 1}$
+            \item insert the representatives of both $C_i$ (the clan formed from the previous clan's offspring) and 
+            $C_{i + 1}$ (the clan formed from the new clan's poor relations, i.e. the next $\lfloor \log k \rfloor$ elements 
+            that were the previous clan's offspring but were not chosen to form $C_i$) into $H_1$
+        \end{enumerate}
+        \item using the last element removed from $H_1$ at the end of the loop, find the set of elements in $H_0$ that 
+        are $\leq$ that last-removed element. Note that the last-removed element from $H_1$ will be the largest of the 
+        $\lceil \frac{k}{\lfloor \log k \rfloor} \rceil$ clan representatives that we traversed through in the above loop, 
+        making it at least as large as the $k^{th}$ largest element.
+        \item from the set of elements achieved in step (e), directly select the $k^{th}$ smallest element, which can be done in 
+        using a linear-time selection algorithm like median of medians or PICK (in this case, $O(k)$, since the set of elements selected will be approximately $k$)
+    \end{enumerate}
+
+    The runtime of this algorithm is $O(k\log\log k)$. The loop executes $\lceil \frac{k}{\lfloor \log k \rfloor} \rceil$ 
+    steps, and each time we do $\log k$ work (for the heap operations in $H_1$), giving us $O(k)$. However, in each step, 
+    we are also forming clans, which we'll have at most $2\lceil \frac{k}{\lfloor \log k \rfloor} \rceil + 1$ of, and 
+    the time taken to create each one is $O(\log k \log\log k)$. Simplifying a bit by disregarding coefficients and 
+    constants, we see that we'd thus take $\frac{k}{\log k} \cdot \log k \log\log k = O(k \log\log k)$ time to create 
+    all the needed clans. Finally, after the loop ends, we end up with the set containing $O(k)$ elements that are less 
+    than the element last removed from $H_1$, and selecting the $k^{th}$ smallest element from this set would take 
+    linear time $O(k)$. So, we'd have a runtime of $O(k \log\log k + k) = O(k \log\log k)$.
 
     \item \textbf{Recall how we solved the following problem in class: Given a (read-only) 
     array A[1,n] of $n$ numbers, if it exists, find the number that appears more than n/2 
