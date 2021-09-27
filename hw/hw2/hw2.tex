@@ -69,13 +69,33 @@
         \begin{enumerate}
             \item find the node with key $\geq a$ using binary search. Store the current max value seen, which will just 
             be \texttt{curr.weight}
-            \item we now search for the node with key $\leq b$ (which may or may not be in the subtree rooted at the 
-            node found in (a)). To account for cases where a node above the node with key $\leq b$ has a higher weight, 
-            we must walk along the path between $a$ and $b$ and check the max values as we go along.
+            \item we now search for the node with key $\leq b$. Rather than search for it directly, we should start 
+            from the lowest common ancestor of this node and the node found in (a) (which we can easily determine as the node 
+            where the search for a and the search for b cause us to take different child nodes). From this ancestor's 
+            right child onward, we will compute $max(\texttt{curr.weight, curr.maxleft, currMaxWeight})$ until we reach the last 
+            node $\leq b$. By the end of this traversal, the max value within $[a, b]$ will be stored in 
+            \texttt{currMaxWeight}, and we can return it.
+            \item The reason we start from the right child of the ancestor of the nodes roughly corresponding to $a$ and 
+            $b$ is to ensure that we don't accidentally include weights outside the interval. For example, 
+            if a left child of $a$'s node was larger than $a$'s weight, it would also be in the 
+            \texttt{maxleft} of the ancestor, which would cause us to arrive at an incorrect result when performing 
+            step (b) (since we check the \texttt{maxleft}s there). So for that reason, we start from the common ancestor's 
+            right child when doing the \texttt{maxleft} comparisons.
             \item as we move along in search of the node with key $\leq b$, we compare our current max value with 
             the max of the current node's weight and its \texttt{maxleft} value, and take it if it's larger. By doing this, 
             means we don't have to actually search the left subtree.
         \end{enumerate}
+
+        \item the above operations in this data structure run in $O(\log n)$ time. Insertion into the tree 
+        takes $O(\log n)$ time (since we are just doing $O(1)$ comparisons for the subtree maxes, and these are done 
+        $\log n$ times). The range query also only incurs time from searching the tree for the lowest common ancestor 
+        (divergence point) of $a$ and $b$, which can be done in $O(\log n)$ time as well. Finding the nodes with the 
+        smallest key $\geq a$ and largest key $\leq b$ is just an extension of the search, which is also done in logarithmic 
+        time. When we walk along the nodes from the ancestor towards $b$, we also only look at one node per level, 
+        and incur logarithmic time. These are all additive (and some, like the ancestor search and search for $a$ and $b$, 
+        can be done simultaneously), so our operations all run in $O(\log n)$ time with a relatively balanced binary 
+        search tree. If we are worried about the worst case where the BST devolves to a linked list, we can always just 
+        use a self-balancing BST like an AVL tree, and maintain the logarithmic runtime for the two operations.
     \end{itemize}
 
     \item \textbf{Design an $O(k\log k)$ time algorithm to find the kth smallest number from a set 
