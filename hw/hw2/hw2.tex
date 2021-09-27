@@ -25,11 +25,59 @@
     worst-case time. By proposing an appropriate potential function, show that the amortized 
     cost of insertion is $O(1)$ and the amortized cost of extract min is $O(\log n)$.}
     \item \textbf{[Range Query Data Structure]: Let S be a (dynamic) set of items, where each item is 
-    associated with a unique "key" (a positive number) and a unique "weight" (a positive 
+    associated with a unique ``key'' (a positive number) and a unique ``weight'' (a positive 
     number). Therefore each item can be represented as a (key, weight) pair. Design an $O(n)$ 
     space data structure that can support the following operations on S in O(log n) time, where 
     n is the cardinality of S: (i) insert a new item into S (ii) RangeQuery[a,b]: report the 
     item with the highest weight among all items in S with the key within the range [a,b].}
+
+    We can approach this problem using a modified form of a binary search tree. To see how, I'll first be laying out 
+    some things we need to store in each node of our data structure for $S$:
+
+    \begin{itemize}
+        \item the key for a node, which will be the primary means of ``indexing'' in our data structure
+        \item the weight/value for the node
+        \item the maximum weight of the node's left subtree
+        \item the maximum weight of the node's right subtree
+    \end{itemize}
+
+    The reason I choose to store the max weights of both subtrees is to make searching for the max weight 
+    take less than an additional $O(k)$ time, where $k = b - a$. If these values were not stored, we would first 
+    have to find the smallest key $\geq a$ and the largest key $\leq b$, and then search every node with keys 
+    between those values exhaustively. But, since we maintain and update these values as we insert nodes into the 
+    tree, all we have to do is find the node $\geq a$ and the node $\leq b$, and do a series of $O(1)$ comparison between 
+    a couple of values along the way between the two. The comparisons needed would follow these cases:
+
+    Putting this all together, here's a more exact description of how the data structure and its functions:
+
+    \begin{itemize}
+        \item inserting a new item into the data structure:
+        \begin{enumerate}
+            \item create a node that contains the given key, the given value, and \texttt{maxleft} and \texttt{maxright}, which 
+            may be initialized to $-\infty$
+            \item insert the node into the data structure following a BST's insertion steps; that is, do a binary search 
+            for the node's key in the tree and create a left/right child for the last node found, as appropriate
+            \item as you are traversing the array in this binary search fashion, also update the ``maxleft'' or ``maxright'' values 
+            of the nodes you pass through as needed. For example, if insertion makes the node to be inserted go right of the current node, 
+            update the current node's ``maxright'' value with $max(\texttt{curr.right}, \texttt{node.weight})$. This 
+            ensures that the ``left'' and ``right'' values of all nodes are kept up-to-date as we insert more nodes. 
+            Since this comparison incurs only constant time for each step spent traversing the tree, we can keep this in 
+            $O(\log n)$.
+        \end{enumerate}
+
+        \item RangeQuery[a, b]:
+        \begin{enumerate}
+            \item find the node with key $\geq a$ using binary search. Store the current max value seen, which will just 
+            be \texttt{curr.weight}
+            \item we now search for the node with key $\leq b$ (which may or may not be in the subtree rooted at the 
+            node found in (a)). To account for cases where a node above the node with key $\leq b$ has a higher weight, 
+            we must walk along the path between $a$ and $b$ and check the max values as we go along.
+            \item as we move along in search of the node with key $\leq b$, we compare our current max value with 
+            the max of the current node's weight and its \texttt{maxleft} value, and take it if it's larger. By doing this, 
+            means we don't have to actually search the left subtree.
+        \end{enumerate}
+    \end{itemize}
+
     \item \textbf{Design an $O(k\log k)$ time algorithm to find the kth smallest number from a set 
     of n numbers arranged in the form of a binary min-heap (where $n \gg k$). Improve the time 
     complexity to $O(k\log \log k)$. Note that the trivial solution takes $O(k\log n)$ time (i.e., 
