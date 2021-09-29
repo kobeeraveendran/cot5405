@@ -17,10 +17,25 @@
 \maketitle
 
 \begin{enumerate}
-    \item \textbf{Prove or disprove that a HEAP can support the following operations in $o(log n)$ time: 
-    (i) insert($x$): insert an element $x$ into the HEAP and (ii) \texttt{extract\_min\_max}: extract either 
+    \item \textbf{Prove or disprove that a HEAP can support the following operations in $o(\log n)$ time: 
+    (i) \texttt{insert($x$)}: insert an element $x$ into the HEAP and (ii) \texttt{extract\_min\_max}: extract either 
     the minimum or the maximum element (the HEAP won't tell if the extracted element is the min 
     or max) [Hint: Prove by contraction via sorting lower bound].}
+
+    \begin{enumerate}
+        \item heap insertion:
+        
+        We know that in the process of insertion into a heap, new nodes are always placed at the leaf level, after 
+        which we call heapify to correct the (potentially incorrect) heap by bubbling the new node up to its 
+        correct level in the heap. Binary heaps, by definition, are complete binary trees, in that all levels of the 
+        heap (except perhaps the last level) are full. Thus, during the bubble-up process, in the worst case a node will 
+        have to travel all the way up to the root, and since this distance will be proportional to the height of the tree, 
+        which is $h = \log n$, the average- and worst-case runtime of insertion is $O(\log n)$. We cannot even achieve 
+        $o(\log n)$ except in the best case, in which the new node actually belongs on the leaf level (which is $O(1)$).
+
+        \item heap min/max extraction:
+    \end{enumerate}
+
     \item \textbf{A binomial heap can perform both insertions and extract min operations in $O(\log n)$ 
     worst-case time. By proposing an appropriate potential function, show that the amortized 
     cost of insertion is $O(1)$ and the amortized cost of extract min is $O(\log n)$.}
