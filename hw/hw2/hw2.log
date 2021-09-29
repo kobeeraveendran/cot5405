@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 21.1) (preloaded format=pdflatex 2021.2.4)  28 SEP 2021 15:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 21.1) (preloaded format=pdflatex 2021.2.4)  29 SEP 2021 13:02
 entering extended mode
 **c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.tex
 (c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.tex
@@ -281,9 +281,9 @@ Here is how much of TeX's memory you used:
  23106 multiletter control sequences out of 15000+200000
  414705 words of font info for 71 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,6n,74p,347b,543s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 71i,6n,74p,347b,607s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\kobee\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm0700.pk> <C:\Users\kobee\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\kobee\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1440.pk><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/kobee/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on c:/Users\kobee\Documents\coursework\classes\cot5405_algorithm-design\hw\hw2\hw2.pdf (5 pages, 158239 bytes).
+Output written on c:/Users\kobee\Documents\coursework\classes\cot5405_algorithm-design\hw\hw2\hw2.pdf (5 pages, 159920 bytes).
 PDF statistics:
  129 PDF objects out of 1000 (max. 8388607)
  39 named destinations out of 1000 (max. 500000)
