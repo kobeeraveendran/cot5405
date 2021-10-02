@@ -6,10 +6,10 @@
 \usepackage{algpseudocode}
 \usepackage{hyperref}
 
-\title{Homework 2 -- COT5405
+\title{Homework 2
     \thanks{For some questions, I received guidance from or collaborated with: TA (office hours)}
 }
-\author{Kobee Raveendran}
+\author{COT5405}
 \date{September 2021}
 
 \begin{document}
@@ -25,15 +25,26 @@
     \begin{enumerate}
         \item heap insertion:
         
-        We know that in the process of insertion into a heap, new nodes are always placed at the leaf level, after 
-        which we call heapify to correct the (potentially incorrect) heap by bubbling the new node up to its 
-        correct level in the heap. Binary heaps, by definition, are complete binary trees, in that all levels of the 
-        heap (except perhaps the last level) are full. Thus, during the bubble-up process, in the worst case a node will 
-        have to travel all the way up to the root, and since this distance will be proportional to the height of the tree, 
-        which is $h = \log n$, the average- and worst-case runtime of insertion is $O(\log n)$. We cannot even achieve 
-        $o(\log n)$ except in the best case, in which the new node actually belongs on the leaf level ($O(1)$).
+        Assume we can perform insertion in worst case $o(\log n)$ time. Binary heaps, by definition, are complete binary trees, 
+        in that all levels of the heap (except perhaps the last level) are full. Assume we have a min heap, and we insert 
+        the contents of an array sorted in descending order. During the bubble-up process of insertion, in the worst case 
+        a node will need to travel all the way up to the root from the leaf level. To achieve $o(\log n)$ insertion, 
+        we would have to need less than $\log n$ comparisons for the bubble-up process of insertion in the worst case. But, since the distance 
+        an inserted node travels will be proportional to the height of the tree, which is $h = \log n$ in balanced binary 
+        trees, the average- and worst-case runtime of insertion is $O(\log n)$, so $o(\log n)$ insertion is not possible 
+        except in the best case (or in amortized analysis).
 
         \item heap min/max extraction:
+        
+        Assume we can do this in $o(\log n)$ time. After every extraction, we must compare the previously-extracted element 
+        with the currently-extracted element and note whether it is greater than or less than it. Repeating this for  
+        all $n$ elements in the heap will let us know whether the heap extracted the min or max. Simply extracting 
+        the root $n$ times and sorting the results to check would take $O(n\log n)$ time. We are claiming to achieve the result 
+        faster (in $o(\log n)$ time), which contradicts the proven lower bound for sorting (we cannot extract all the roots 
+        and compare them in less than $\log n$ time by definition; all nodes must be processed after all). Also, more 
+        empirically, since extracting the root takes $\log n$ time, and this is done $n$ times (with $O(1)$ comparisons 
+        to the previously-extracted elements each time), we already see that the $o(\log n)$ runtime is exceeded.
+        
     \end{enumerate}
 
     \item \textbf{A binomial heap can perform both insertions and extract min operations in $O(\log n)$ 
@@ -59,7 +70,9 @@
         The amortized cost of the operation is the actual cost plus the change in potential from performing the 
         operation:
 
-        $m_i = c_i + \delta \Phi()$
+        $m = c_i + \Delta \Phi(h_i)$
+
+        $ = k + 1 + $
 
     \end{itemize}
 
