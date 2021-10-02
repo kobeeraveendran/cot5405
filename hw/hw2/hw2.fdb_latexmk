@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1633201640 "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.pdf" "hw2" 1633201643
+["pdflatex"] 1633205604 "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.tex" "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.pdf" "hw2" 1633205606
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm0700.pk" 1631125257 8268 7dc77aba273dc0600a6c0a264bdb48b0 ""
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1632687442 14064 3ca3a0641ba53d801f62fb714a4b9364 ""
   "C:/Users/kobee/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1440.pk" 1631125321 16968 302c324738093ad204f1ee5548ec8ddc ""
@@ -86,15 +86,15 @@
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty" 1576437552 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1575574882 9715 b051d5b493d9fe5f4bc251462d039e5f ""
   "C:/Users/kobee/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388494052 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.aux" 1633201642 686 3679e47b2b137aa430e4f1f8398129a8 ""
-  "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.tex" 1633201639 23139 52f3781c93c70805e71403974fb67a4e ""
-  "hw2.aux" 1633201642 686 3679e47b2b137aa430e4f1f8398129a8 "pdflatex"
-  "hw2.out" 1633201642 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "hw2.tex" 1633201639 23139 52f3781c93c70805e71403974fb67a4e ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.aux" 1633205606 686 3679e47b2b137aa430e4f1f8398129a8 ""
+  "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.tex" 1633205602 24408 018e77a3b5757c6306ef28032ffff9a2 ""
+  "hw2.aux" 1633205606 686 3679e47b2b137aa430e4f1f8398129a8 "pdflatex"
+  "hw2.out" 1633205606 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "hw2.tex" 1633205602 24408 018e77a3b5757c6306ef28032ffff9a2 ""
   (generated)
-  "hw2.pdf"
-  "hw2.aux"
-  "hw2.log"
-  "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.log"
-  "hw2.out"
   "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.pdf"
+  "hw2.out"
+  "hw2.aux"
+  "hw2.pdf"
+  "c:/Users/kobee/Documents/coursework/classes/cot5405_algorithm-design/hw/hw2/hw2.log"
+  "hw2.log"

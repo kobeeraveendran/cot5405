@@ -54,25 +54,50 @@
     \begin{itemize}
         \item let the potential function $\Phi(h)$ be defined as follows:
         
-        $\Phi(h_i) = c \cdot k$, where $k$ is the number of merged binomial trees in the heap after 
+        $\Phi(h_i) = k$, where $k$ is the number of merged binomial trees in the heap after 
         the $i^{th}$ operation
 
-        Of course, for an initialized binomial heap $\Phi(h_0) = 0$, and the number of trees only grows, so 
-        $\Phi(h_i) \geq 0$ for $i \geq 0$.
+        Of course, for an initialized binomial heap $\Phi(h_0) = 0$, and for all other heaps, $\Phi(h_i) \geq 0$ for $i \geq 0$. 
+        (end up with 1 root after fixing each insertion)
 
-        \item $O(1)$ insertion:
+        \item \textbf{$O(1)$ insertion:}
         
         The actual cost of insertion is the number of merged binomial trees already in the binomial heap, plus one 
-        extra: 
+        extra for the inserted element:
 
         actual cost: $c_i = k + 1$
+
+        Change in potential:
+
+        $\Delta \Phi(h_i) = \Phi(h_i) - \Phi(h_{i - 1}) = 1 - (k - 1)$
 
         The amortized cost of the operation is the actual cost plus the change in potential from performing the 
         operation:
 
-        $m = c_i + \Delta \Phi(h_i)$
+        $m = c_i + \Delta \Phi(h_i) = (k + 1) + (2 - k) = 3 \longrightarrow O(1)$
 
-        $ = k + 1 + $
+        \item \textbf{$O(\log n)$ extraction:}
+        
+        (same potential function as above)
+
+        Assuming we scan $k$ subroots for the merge step (to fix after extraction), $d$ is the degree of the subroot 
+        with the smallest value, $l$ is the number of re-linkings we do during the merge step, and $t$ is the number of 
+        trees present after merging.
+
+        Actual cost: 
+
+        $c_i = 1$ (removing min node) $ + 1$ (remove tree with the smallest root from heap) $ + r$ (form new binomial trees 
+        from removed root's children) $ + k$ (merge the roots) $ + t$ (update min node pointer) 
+        $\longrightarrow c_i = 2 + r + k + t$
+
+        Change in potential:
+
+        $\Delta \Phi(D_i) - \Phi(D_{i - 1}) = (r - 1) - l$ (removing min root creates $r$ new trees after removing 1, and 
+        re-linking the trees removes $l$ of those)
+
+        Amortized cost: $m = c_i + \Delta \Phi(D_i)$
+
+        $m = (2 + r + k + t) + (r - 1 - l) = 1 + 2r + k + t - l = O(1) + O(2\log n) + O(\log n) + O(\log n) - O(\log n) = O(\log n)$
 
     \end{itemize}
 
@@ -99,7 +124,7 @@
     have to find the smallest key $\geq a$ and the largest key $\leq b$, and then search every node with keys 
     between those values exhaustively. But, since we maintain and update these values as we insert nodes into the 
     tree, all we have to do is find the node $\geq a$ and the node $\leq b$, and do a series of $O(1)$ comparison between 
-    a couple of values along the way between the two. The comparisons needed would follow these cases:
+    a couple of values along the way between the two nodes.
 
     Putting this all together, here's a more exact description of how the data structure and its functions:
 
@@ -259,7 +284,8 @@
     Design an O(n log k) time solution that uses only O(k) auxiliary space.}
 
     We can solve this problem in a manner similar to the one discussed in class, just modified to 
-    track more than one possible frequently-occurring element. The algorithm would go like this:
+    track more than one possible frequently-occurring element. The algorithm (known more widely as Misra-Gries) would go 
+    like this:
 
     \begin{enumerate}
         \item initialize an auxiliary data structure like an associative binary search tree (or hash map to give us 
