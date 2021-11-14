@@ -4,11 +4,10 @@
 \usepackage{amssymb}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{float}
 
 \title{Homework 4 -- COT5405
-    \thanks{For some questions, I received guidance from or collaborated with: TA (office hours)}
 }
-\author{Kobee Raveendran}
 \date{November 2021}
 
 \begin{document}
@@ -22,6 +21,52 @@
     from the left to the right. However, there is a further restriction: when you select a dish, say $A$, the 
     next dish you can select must cost higher than $A$.  Design an $O(n^2)$-time algorithm to select the dishes 
     so as to maximize the total costs.}
+    
+    This problem can be solved with DP/memoization using a 2D dp/memo matrix. In my solution I will use top-down DP (with memoization), but it can also be done iteratively using a DP matrix in a bottom-up fashion.
+    
+    Start by initializing a memo table to hold intermediate calculations. It will roughly be of size $n^2$; the first axis will represent whatever dish (current index, denoted \texttt{index}) we're currently deciding to select (or not), and the second axis will represent the dish we chose before this one (the previous index chosen, denoted \texttt{prev}).
+    
+    In this problem, recursion should end once we've looked at all $n$ dishes, and we will start the recursion from the leftmost dish. In each call, we first check if our memo table has our current state (i.e. whether \texttt{memo[index][prev]} already has a value). If so, we can just return it without needing further computation. If it doesn't, we must compute and store it in the memo table. So, we go on to recursively compute the cost if we take the dish (first checking that it costs more than \texttt{prev} of course), and the max cost if we chose to skip the dish. Our memo table will then store the max of either taking or skipping the dish. We can keep track of the max as we recurse and return once it's finished.
+    
+    The time complexity of this approach is $O(n^2)$, which is the cost for filling the memo table. Since we don't do any recomputation (previously-seen states are just pulled from the memo table instead of recomputed), we incur $O(1)$ work for each unique state (and there are approx. $n^2$ of them).
+    
+    Below is some (unoptimized) pseudocode which details my approach.
+    
+    \begin{algorithm}
+        \caption{Recursive memoization approach ($O(n^2)$ time with $O(n^2)$ space)}
+        \begin{algorithmic}
+            \State $memo$ = [[null for $i$ in $[1, n]$ for $j$ in $[1, n]$
+            
+            \State $maxcost \gets -\infty$
+            
+            \Procedure{recurse}{$index$, $prev$}
+            
+            \If{$index \geq len(arr)$}
+                \State \Return 0
+            \EndIf
+            
+            \If{$memo[index][prev] \neq \varnothing$}
+                \State \Return $memo[index][prev]$
+            \EndIf
+            
+            \State $take \gets 0$
+            \State $skip \gets 0$
+            
+            \If{$arr[index] > arr[prev]$}
+                \State $take \gets arr[index] +  \Call{recurse}{index + 1, index}$
+            \EndIf
+            
+            \State $skip \gets \Call{recurse}{index + 1, prev}$
+            
+            \State $memo[index][prev] \gets max(take, skip)$
+            
+            \State \Return $memo[index][prev]$
+            
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
+    
+    \newpage
 
     \item \textbf{There is a stair with $n$ stages, and on each stage, there is a coupon to your favorite restaurant. 
     Each coupon has an associated value which may be different. You can climb up 1, 2, or 3 stages in a step. 
@@ -30,10 +75,10 @@
     (means you cannot fix $L = n$ or so). Find a way to climb the stair within L steps so that you can collect 
     coupons with the maximum total value. Your algorithm should run in $O(n^2)$ time.}
 
-    \textit{Note: For this problem, I'm assuming coupon values cannot be negative (i.e. taking a step can ONLY 
-    increase your ``score''). This means that I will always try to take up to $L$ steps. If negative coupons are 
-    allowed, then the solution would have to change, as it may be optimal to take much less than $L$ steps while 
-    still reaching the top (i.e. we may need to skip some stairs with negative values).}
+    \textit{Note: For this problem, I'm assuming coupon values are non-negative (i.e. taking a step can ONLY 
+    increase or maintain your ``score''). This means that I will always try to take $L$ steps. If negative coupons are 
+    allowed, then the solution would have to change, as it may be optimal to take less than $L$ steps while 
+    still reaching the top (i.e. we may need to skip over some stairs with negative values).}
 
     This problem can be solved with dynamic programming using a 2D dp matrix. The matrix will by $L \times n$, where $L$ 
     is the max. number of steps we can take and $n$ is the total number of stairs. Our objective function (i.e. what 
@@ -56,7 +101,7 @@
 
     Assume we have a staircase with $L = 3$ and the following coupon values (in order of stair number): $[3, 7, 9, 5, 1]$
 
-    \begin{table}[h!]
+    \begin{table}[H]
         \centering
         \begin{tabular}{|c|c|c|c|c|} \hline
             3 & 7 & 9 & 0 & 0 \\ \hline
@@ -66,9 +111,7 @@
         \caption{Base cases}
     \end{table}
 
-    \newpage
-
-    \begin{table}[h!]
+    \begin{table}[H]
         \centering
         \begin{tabular}{|c|c|c|c|c|} \hline
             3 & 7   & 9      & 0    & 0 \\ \hline
@@ -78,7 +121,7 @@
         \caption{After first outer loop iteration}
     \end{table}
 
-    \begin{table}[h!]
+    \begin{table}[H]
         \centering
         \begin{tabular}{|c|c|c|c|c|} \hline
             3 & 7   & 9      & 0    & 0 \\ \hline
@@ -87,10 +130,22 @@
         \end{tabular}
         \caption{Final iteration (we've reached taken our last possible step)}
     \end{table}
+    
+    As you may see, to fill in a particular cell, we only need the values of the cells up one row and up to three columns to the left, plus the value of the current stair's coupon. As we are trying to maximize the total coupon value, we take the max of those three cells and add it to the current stair's coupon value. This satisfies the optimal substructure property, allowing us to build up to the optimal final solution.
 
-    Our final answer will be in \texttt{dp[L][n]}, and we can confirm this is correct (start from the ground (step ``0''), 
+    This final answer will thus be located in \texttt{dp[L][n]}, and we can confirm this is correct in our example (start from the ground (step ``0''), 
     go to stair 2 and collect 7, then go to step 3 and collect 9, then go to the final ($n^{th}$) step and collect 1 for 
     a total of 17).
+    
+    The final runtime for this algorithm is thus $O(3Ln)$, and since $L$ is bounded by $n$, this is also bounded by $O(n^2)$.
+    
+    \item \textbf{You have newly obtained the right to invest in a strange city called Trellisland. The shape of the city looks like a tree, such that each node in the tree has a building, and each edge in the tree is a road connecting two buildings. And in total, there are $n$ buildings. You want to open stinky tofu stores in this city. According to the rules, each building can have at most one store, and each store cannot be adjacent to each other on the same road (otherwise, it becomes too stinky). You have done some preliminary study and can now tell the number of customers who will visit each building if a store is open there. Now, your target is to decide where to open the stores so as to maximize the total number of customers. Design an $O(n)$-time algorithm to achieve the above target.}
+    
+    This problem can also be solved using memoization/DP in a similar fashion to how we solved problem 1, just with different constraints/requirements. I'll be using the top-down memoization approach for convenience, but I won't be providing pseudocode again since it has the same structure (compute the answer for this state and store it in the memo table if not there already, otherwise pull the answer from the memo table and return).
+    
+    Start with the first node listed in the graph representation. In each recursive call, simulate both ``taking'' the current node (which represents putting a stinky tofu store in this building), and ``not taking'' the current node (no store in this building). If we take take the current node, recursively call again on the nodes after the neighboring nodes (to adhere to the store distance rule). If not, recursively call again on the neighboring nodes.
+    
+    When we return from a call, we'll know whether it was advantageous to take or skip a building (using a simple max), at which point we can mark it as taken or not taken in a separate array of nodes, which will be our final result.
 
 \end{enumerate}
 
