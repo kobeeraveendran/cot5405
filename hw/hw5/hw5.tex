@@ -82,18 +82,27 @@
         Note that we are NOT looking for the longest path starting at a particular vertex, rather the overall longest 
         path that can start at any arbitrary vertex.}
 
-        Probably the most intuitive way to go about finding the longest path is to find the shortest path on a modified 
-        graph. In particular, we can convert our original problem of finding the longest path into finding the shortest 
-        path by negating all edge weights in the graph. This means that larger edge weights, which we want to find to 
-        achieve a longer path, would now become more negative (i.e. smaller) in the new graph. Now, finding the shortest 
-        path length in this new graph gives us the longest path length in the original graph, which can be done with 
-        a shortest path algorithm like Bellman-Ford. 
+        \textit{NOTE: Here I'm assuming the graph is unweighted. If it is actually weighted, then we could possibly try 
+        another approach like negating the edge weights, then finding the shortest paths in this new graph.}
+
+        In a DAG, we can find the longest path (and its length) starting at a vertex $v$ using a DFS from that vertex. However, since we 
+        want the overall longest path, we'd have to run a DFS for all vertices, which would give us a quadratic runtime 
+        ($O(n^2)$, where $n = |V| +  |E|$).
+
+        However, we can notice that these longest paths build upon each other and have an optimal substructure property, 
+        allowing us to use DP. For example, to get the length of the longest path from a node at one end of a graph to the other end, 
+        we need only add the length from that node to a central node and the length from that central node to a node 
+        at the opposite end of the graph.
+
+        In our DP matrix, the length of the longest path from all vertices will be initialized to 0. Then, iterating 
+        over the set of vertices, we assign \texttt{dp[v]} to be the max over all of its neighbors lengths (plus 1) and 
+        its own value (\texttt{dp[v]}). 
         
-        Since this involves a source vertex, to find the length of the shortest path from some other vertices, I believe 
-        we can use the source vertex $s$ as an intermediate vertex (i.e. just add the shortest path length from the new 
-        ``source'' vertex to the intermediate vertex $s$ to the length of the shortest path from $s$ to the target). I 
-        could also be wrong about this, as this is technically only giving us the longest path between any such source 
-        and any such target \textit{that passes through} $s$, which may not be the longest possible path between them.
+        In other words, \texttt{dp[v] = max(max(dp[$n_i$] for $n_i$ in neighbors) + 1, dp[v])}. Once \\
+        we've run through this for all vertices, we need only scan through \texttt{dp} one final time and take the 
+        maximum value, which is our final answer. We are not doing any repeated work, and so in our loop over all 
+        $|V|$ vertices, we will just encounter all $|V|$ vertices and $|E|$ edges, giving us a total runtime of 
+        $O(|V| + |E|)$, or $O(n + m)$ as per the problem statement (using linear extra space for the DP table).
 
     \end{enumerate}
 \end{document}
