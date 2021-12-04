@@ -18,6 +18,18 @@
         the length of the shortest path from a source vertex to every other vertex in $O((E+V)D)$ time, where $D$ is the 
         maximum weight on an edge.}
 
+        Since BFS is usually only useful for unweighted graphs (or graphs that have uniform edge weights), we can't apply 
+        it outright here. What we could instead do is ``expand'' all the weights. Since all edge weights here are 
+        positive integers, I'll say the ``default'' weight is 1. Thus, all edges with weight not equal to 1 will have 
+        to be expanded into a series of edges with weight 1. So, for example, an edge with weight 7 would be split up 
+        into 7 edges each with weight 1 (also with dummy vertices between these edges). Once we've done this for all the 
+        original edges, we can then run BFS as normal to find the shortest path lengths.
+
+        The only extra work we incur here is from splitting up all the edges with weights not equal to 1. This is a 
+        process bounded by the weight of the maximum edge in the graph, which we know here is $D$. Thus, for all $|E|$ edges, we incur at 
+        most $D$ work per edge, and since inserting an edge means also inserting a vertex, for all vertices we also incur 
+        this $D$ work per vertex. So, our final runtime is $O(ED + VD) = O((E + V)D)$.
+
         \item \textbf{Consider a directed weighted graph with non-negative edge weights. For some cases, it is necessary 
         to compute the length of the shortest path from every vertex $v$ to a target vertex $t$. Describe how you can 
         compute this in the same time complexity as in Dijkstra's algorithm.}
@@ -65,12 +77,23 @@
                 \label{fig:negative-log-likelihood}
             \end{center}
         \end{figure}
-        
-        \newpage
 
         \item \textbf{Given a directed acyclic graph, find the length of the longest path in the graph in $O(n+m)$ time. 
         Note that we are NOT looking for the longest path starting at a particular vertex, rather the overall longest 
         path that can start at any arbitrary vertex.}
+
+        Probably the most intuitive way to go about finding the longest path is to find the shortest path on a modified 
+        graph. In particular, we can convert our original problem of finding the longest path into finding the shortest 
+        path by negating all edge weights in the graph. This means that larger edge weights, which we want to find to 
+        achieve a longer path, would now become more negative (i.e. smaller) in the new graph. Now, finding the shortest 
+        path length in this new graph gives us the longest path length in the original graph, which can be done with 
+        a shortest path algorithm like Bellman-Ford. 
+        
+        Since this involves a source vertex, to find the length of the shortest path from some other vertices, I believe 
+        we can use the source vertex $s$ as an intermediate vertex (i.e. just add the shortest path length from the new 
+        ``source'' vertex to the intermediate vertex $s$ to the length of the shortest path from $s$ to the target). I 
+        could also be wrong about this, as this is technically only giving us the longest path between any such source 
+        and any such target \textit{that passes through} $s$, which may not be the longest possible path between them.
 
     \end{enumerate}
 \end{document}
