@@ -28,7 +28,7 @@
         The only extra work we incur here is from splitting up all the edges with weights not equal to 1. This is a 
         process bounded by the weight of the maximum edge in the graph, which we know here is $D$. Thus, for all $|E|$ edges, we incur at 
         most $D$ work per edge, and since inserting an edge means also inserting a vertex, for all vertices we also incur 
-        this $D$ work per vertex. So, our final runtime is $O(ED + VD) = O((E + V)D)$.
+        this $D$ work per vertex. So, our final runtime is $O(|E|D + |V|D) = O((|E| + |V|)D)$.
 
         \item \textbf{Consider a directed weighted graph with non-negative edge weights. For some cases, it is necessary 
         to compute the length of the shortest path from every vertex $v$ to a target vertex $t$. Describe how you can 
@@ -49,7 +49,7 @@
 
         To obtain the maximum probability of a path existing, we should first try to maximize the probabilities of the 
         constituent edges along the path, which will maximize their product. So, we should essentially be flipping another goal of 
-        Dijkstra's algorithm (which originally aims to find the shortest path, but here we want the ``longest'' path in 
+        Dijkstra's algorithm (which originally aims to find the shortest paths, but here we want the ``longest'' path in 
         that the path's edge weights should be maximized rather than minimized). However, I don't believe Dijkstra's can be used 
         to find longest paths outright, but we can try converting our problem from edge maximization to edge minimization. 
         To do that, I'll use a trick from optimization commonly seen in machine learning loss function optimization, which is 
@@ -60,10 +60,13 @@
         log likelihood trick, to convince yourself that this works, see the graph of $-\log x$ in figure 
         \ref{fig:negative-log-likelihood} below. Note how, in the range $[0, 1]$ (where our original edge weight probabilities 
         lie), $-\log (x)$ is decreasing and non-negative as $x$ increases. For example, $-\log (0.6) \approx 0.221$ while $-\log (0.8) \approx 0.097$; 
-        in other words, the higher probability has been converted into a smaller value. Anyway, now that we have a 
-        minimization problem, we can just run Dijkstra's as normal on our updated graph and find the ``shortest'' path 
-        (the smallest constituent edge weights along the path). This path is the path that would yield the highest 
-        probability of existing in our original graph.
+        in other words, the higher probability has been converted into a smaller value. Since we are also dealing with logs, 
+        we can replace the multiplication in the original problem with addition (so, the existence probability of a path 
+        is now the sum of its edge weights rather than the product).
+        
+        Anyway, now that we have a minimization problem, we can just run Dijkstra's as normal on our updated graph and 
+        find the ``shortest'' path (the smallest constituent edge weights along the path). This path is the path that 
+        would yield the highest probability of existing in our original graph.
 
         To do all this, we just need $O(|E|)$ time to first update each edge weight $w$ to $-\log w$. Then we run 
         Dijkstra's as normal, which of course doesn't change its runtime.
